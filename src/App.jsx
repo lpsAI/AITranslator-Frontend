@@ -6,28 +6,29 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
 
+  const addCount = () => {
+    setCount(count + 1)
+  }
+  
+
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+      <article class="prose">
+      <h1>Garlic bread with cheese: What the science tells us</h1>
+      <p>
+        For years parents have espoused the health benefits of eating garlic bread with cheese to their
+        children, with the food earning such an iconic status in our culture that kids will often dress
+        up as warm, cheesy loaf for Halloween.
       </p>
+      <p>
+      But a recent study shows that the celebrated appetizer may be linked to a series of rabies cases
+      springing up around the country.
+    </p>
+    </article>
+    <h1>
+        {count}
+      </h1>
+      <button class="btn" onClick={addCount}>Button</button>
     </>
   )
 }
