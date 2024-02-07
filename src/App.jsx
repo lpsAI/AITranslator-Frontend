@@ -2,34 +2,31 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { ChatInput } from './components/Chatbar/ChatInput'
+import { ChatList } from './components/ChatList/ChatList'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [listOfMessage, setListOfMesages] = useState([])
 
-  const addCount = () => {
-    setCount(count + 1)
+  const onMessageSent = (message) => {
+    setListOfMesages([...listOfMessage, message])
   }
-  
 
   return (
-    <>
-      <article class="prose">
-      <h1>Garlic bread with cheese: What the science tells us</h1>
-      <p>
-        For years parents have espoused the health benefits of eating garlic bread with cheese to their
-        children, with the food earning such an iconic status in our culture that kids will often dress
-        up as warm, cheesy loaf for Halloween.
-      </p>
-      <p>
-      But a recent study shows that the celebrated appetizer may be linked to a series of rabies cases
-      springing up around the country.
-    </p>
-    </article>
-    <h1>
-        {count}
-      </h1>
-      <button class="btn" onClick={addCount}>Button</button>
-    </>
+    <main className='flex size-full'>
+      <div className='container w-1/5'>
+        <h1>testing it out</h1>
+      </div>
+      <div className='container w-4/5'>
+        <div className='container max-w-full flex flex-col h-screen'>
+          <ul className="list-none max-w-full h-full">
+            <ChatList list={listOfMessage} />
+          </ul>
+          <ChatInput sendMsg={onMessageSent} />
+        </div>
+      </div>
+     
+    </main>
   )
 }
 
