@@ -19,11 +19,15 @@ npm install
 <p>3. Run the web app</p>
 
 ```
+CD Into the directory
+```
+
+<p>4. Run the web app</p>
+
+```
 npm run dev
 ```
 
-  
-  
 <h2>💻 Built with</h2>
 
 Technologies used in the project:
@@ -33,7 +37,3 @@ Technologies used in the project:
 *   NodeJS
 *   OpenCV
 *   Microsoft Azure
-
-<h2>🛡️ License:</h2>
-
-This project is licensed under the
