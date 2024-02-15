@@ -5,7 +5,7 @@ import './App.css'
 import { ChatInput } from './components/Chatbar/ChatInput'
 import { ChatList } from './components/ChatList/ChatList'
 
-import Card from './Card.jsx'
+import { Card } from './components/Card/Card'
 
 function App() {
   function toggleTheme(){

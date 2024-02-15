@@ -1,7 +1,6 @@
-import reactLogo from './assets/react.svg'
 
 
-function Card(){
+export const Card = () => {
     return(
 <div className="card">
     <img className="cardimg" src="https://via.placeholder.com/150"alt="logo pic"></img>
@@ -11,4 +10,3 @@ function Card(){
     );
 }
 
-export default Card
