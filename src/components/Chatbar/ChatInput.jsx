@@ -20,7 +20,8 @@ export const ChatInput = ({sendMsg}) => {
   <form onSubmit={event => uponSubmit(event)} className="form-control w-full flex flex-row justify-between">
   <input className="input focus:border-none input-primary p-2 mx-2 mt-auto w-4/5" value={message}
         placeholder="type text here" type="text" onChange={(event) => onSendMsg(event)} />
-      <ButtonBase label="send" />
+      <ButtonBase label="Send" />
+      <ButtonBase label="Attach" />
   </form>
 </div>)
 }
