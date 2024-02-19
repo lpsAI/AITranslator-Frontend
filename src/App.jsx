@@ -1,13 +1,15 @@
 import { useState, } from 'react'
 import './App.css'
-import LoginPage from './components//Pages/LoginPage'
+import LoginScreen from './screens/LoginScreen'
+import ChatScreen from './screens/ChatScreen'
 
 function App() {
 
   return (
-    <>
-      <LoginPage/>
-    </>
+    <div className="container mx-auto">
+        {/* <LoginScreen/> */}
+        <ChatScreen/>
+    </div>
      
     
   )
