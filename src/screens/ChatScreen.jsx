@@ -9,14 +9,17 @@ const ChatScreen = () => {
 
     const addMessage = async (text, isUser = true) => {
     
-      const response = await axios.post("https://ai-translator-backend.vercel.app/api/v1/detect",{
-        text
+      const response = await axios.post("https://ai-translator-backend.vercel.app/api/v1/ai",{
+        text, 
+        language: "zh-Hans"
+      } , {
+        headers: {'X-Custom-Header': 'foobar'}
       }) 
 
-      const data = response.data
+      const data = response.data.translations[0].text
       console.log(data)
 
-      setMessages(prevMessages => [...prevMessages, { text, isUser }]);
+      setMessages(prevMessages => [...prevMessages, { text:data, isUser }]);
     };
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col justify-between">
