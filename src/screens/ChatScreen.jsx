@@ -27,8 +27,8 @@ const ChatScreen = () => {
     }, [messages]);
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col justify-between">
-      <div className="container mx-auto py-8">
+    <div className="bg-gray-100 container h-[92vh] flex flex-col">
+      <div className="container mx-auto py-8 h-full">
         <MessageList messages={messages} myId={openSocket.id} />
       </div>
       <MessageInput addMessage={addMessage} />
