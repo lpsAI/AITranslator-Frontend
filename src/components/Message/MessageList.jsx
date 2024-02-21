@@ -5,7 +5,7 @@ const MessageList = ({ messages, myId }) => {
   return (
     <div className="p-8">
       {messages.map((message, index) => (
-        <Message key={index} text={message.text} isUser={message.isUser} id={message.id} myId={myId} />
+        <Message fromLang={message.fromLang} key={index} text={message.text} isUser={message.isUser} id={message.id} myId={myId} />
       ))}
     </div>
   );
