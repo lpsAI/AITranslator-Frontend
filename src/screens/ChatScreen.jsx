@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MessageList from '../components/Message/MessageList';
 import MessageInput from '../components/Message/MessageInput';
 import axios from 'axios';
@@ -9,27 +9,18 @@ const openSocket = io(import.meta.env.SOCKET_URL ?? 'http://localhost:3000');
 const ChatScreen = () => {
 
     const [messages, setMessages] = useState([]);
+    const language =  localStorage.getItem('language');
 
     const addMessage = async (text, isUser = true) => {
-    
-      const response = await axios.post("https://ai-translator-backend.vercel.app/api/v1/ai",{
-        text, 
-        language: "zh-Hans"
-      } , {
-        headers: {'X-Custom-Header': 'foobar'}
-      }) 
-
-      const data = response.data.translations[0].text
-
-      openSocket.emit('sendMessage', {text: data, isUser, id: openSocket.id});
+      openSocket.emit('sendMessage', {text, isUser, id: openSocket.id, fromLang: language});
 
       // setMessages(prevMessages => [...prevMessages, { text:data, isUser }]);
     
     };
 
     useEffect(() => {
-      const broadcastMsg = ({text, isUser, id}) => {
-        setMessages([...messages, { text, isUser, id }]);
+      const broadcastMsg =  ({text, isUser, id, fromLang}) => {
+        setMessages([...messages, { text, isUser, id, fromLang }]);
       }
 
       openSocket.on('message', (remoteMsg) => broadcastMsg(remoteMsg));

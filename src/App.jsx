@@ -5,7 +5,7 @@ import ChatScreen from './screens/ChatScreen'
 import { ChatHeader } from './components/Containers/ChatHeader'
 
 function App() {
-
+  localStorage.setItem('language', 'en');
   return (
     <>
       <ChatHeader />
