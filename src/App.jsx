@@ -1,4 +1,3 @@
-import { useState, } from 'react'
 import './App.css'
 import LoginScreen from './screens/LoginScreen'
 import ChatScreen from './screens/ChatScreen'
