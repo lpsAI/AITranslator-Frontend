@@ -62,6 +62,7 @@ const MessageInput = ({ addMessage }) => {
     e.preventDefault();
     if (text.trim() !== "") {
       addMessage(text, true);
+      setText('');
     }
   };
 
@@ -77,15 +78,15 @@ const MessageInput = ({ addMessage }) => {
             placeholder="Type your message..."
           />
           <div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex space-x-2 -my-1">
-            <PaperAirplaneIcon className="h-8 w-8 text-blue-500 mx-2" />
+            {/* <PaperAirplaneIcon className="h-8 w-8 text-blue-500 mx-2" /> */}
 
             <input
-              className="hidden"
+              style={{display: 'none'}}
               onChange={event => handleChange(event)}
               ref={hiddenFileInput}
               type="file"
             />
-            <button onClick={() => hiddenFileInput.current.click()}>
+            <button type="button" onClick={() => hiddenFileInput.current.click()}>
               <PhotoIcon className="h-8 w-8 text-blue-500" />
             </button>
           </div>
