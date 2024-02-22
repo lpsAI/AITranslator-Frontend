@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import MessageList from '../components/Message/MessageList';
 import MessageInput from '../components/Message/MessageInput';
-import axios from 'axios';
 import { io } from 'socket.io-client';
 
 const openSocket = io(import.meta.env.SOCKET_URL ?? 'http://localhost:3000');
 
-const ChatScreen = () => {
+const ChatScreen = memo(() => {
 
     const [messages, setMessages] = useState([]);
     const language =  localStorage.getItem('language');
@@ -38,6 +37,6 @@ const ChatScreen = () => {
       <MessageInput addMessage={addMessage} />
     </div>
   )
-}
+})
 
 export default ChatScreen

@@ -3,6 +3,8 @@ import './App.css'
 import LoginScreen from './screens/LoginScreen'
 import ChatScreen from './screens/ChatScreen'
 import { ChatHeader } from './components/Containers/ChatHeader'
+import 'react-toastify/dist/ReactToastify.min.css';
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   localStorage.setItem('language', 'en');
@@ -13,6 +15,7 @@ function App() {
           {/* <LoginScreen/> */}
           <ChatScreen/>
       </div>
+      <ToastContainer />
     </>
      
     

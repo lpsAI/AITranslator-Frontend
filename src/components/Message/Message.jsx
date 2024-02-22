@@ -26,7 +26,7 @@ const Message = ({ text, isUser, id, myId, fromLang }) => {
       <p className='font-bold text-base'>{id === myId ? 'You' : id}</p>
       <div className={`flex ${id === myId ? 'justify-end' : 'justify-start'} mb-2`}>
         <div className={`rounded-lg p-2 ${id === myId ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
-          {transText}
+          {transText ? transText : <span class="loading loading-dots loading-md"></span>}
         </div>
       </div>
     </div>
