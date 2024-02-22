@@ -14,11 +14,7 @@ function App() {
           {/* <LoginScreen/> */}
           <ChatScreen/>
       </div>
-      <ToastContainer />
     </>
-     
-    
   )
 }
-
 export default App
