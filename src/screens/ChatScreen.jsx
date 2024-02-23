@@ -3,7 +3,9 @@ import MessageList from '../components/Message/MessageList';
 import MessageInput from '../components/Message/MessageInput';
 import { io } from 'socket.io-client';
 
-const openSocket = io(import.meta.env.SOCKET_URL ?? 'http://localhost:3000');
+const openSocket = io(import.meta.env.BASE_URL);
+
+console.log(import.meta.env.BASE_URL)
 
 const ChatScreen = memo(() => {
 
