@@ -3,9 +3,7 @@ import MessageList from '../components/Message/MessageList';
 import MessageInput from '../components/Message/MessageInput';
 import { io } from 'socket.io-client';
 
-const openSocket = io(import.meta.env.BASE_URL);
-
-console.log(import.meta.env.BASE_URL)
+const openSocket = io("https://ai-translator-backend.vercel.app");
 
 const ChatScreen = memo(() => {
 
