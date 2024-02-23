@@ -42,12 +42,11 @@ export const ChatHeader = () => {
       );
 
       setLanguageList(response.data.languages ?? []);
+      localStorage.setItem('language', response.data.reqlanguage);
     };
 
     initAllLanguages();
   }, []);
-
-  localStorage.setItem('language', 'en-US');
 
   return (
     <>
