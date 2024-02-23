@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify'
 
 function App() {
-  localStorage.setItem('language', 'en');
+  
   return (
     <>
       <ChatHeader />
