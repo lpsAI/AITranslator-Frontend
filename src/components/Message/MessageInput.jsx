@@ -11,7 +11,7 @@ const MessageInput = ({ addMessage }) => {
     if (!file) {
       toast.error("No File Selected!", {
         position: "top-right",
-        autoClose: 3000
+        autoClose: 3000,
       });
       return;
     }
@@ -24,7 +24,7 @@ const MessageInput = ({ addMessage }) => {
           const progress = progressEvent.loaded / progressEvent.total;
 
           if (toastId.current === null) {
-            toastId.current = toast('Upload in Progress', { progress });
+            toastId.current = toast("Upload in Progress", { progress });
           } else {
             toast.update(toastId.current, { progress });
           }
@@ -37,32 +37,30 @@ const MessageInput = ({ addMessage }) => {
         toast.done(toastId);
         toast.success("Upload Successful!", {
           position: "top-right",
-          autoClose: 3000
-        });      
+          autoClose: 3000,
+        });
       })
       .catch((err) => {
         toast.done(toastId);
         toast.error(`Upload failed: ${err.message}`, {
           position: "top-right",
-          autoClose: 3000
+          autoClose: 3000,
         });
         console.error(err);
       });
   }
 
-  
-    
-    const hiddenFileInput = useRef(null);
-    
-    const handleChange = event => {
-      handleUpload(event.target.files[0])
-    };
+  const hiddenFileInput = useRef(null);
+
+  const handleChange = (event) => {
+    handleUpload(event.target.files[0]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text.trim() !== "") {
       addMessage(text, true);
-      setText('');
+      setText("");
     }
   };
 
@@ -81,12 +79,15 @@ const MessageInput = ({ addMessage }) => {
             {/* <PaperAirplaneIcon className="h-8 w-8 text-blue-500 mx-2" /> */}
 
             <input
-              style={{display: 'none'}}
-              onChange={event => handleChange(event)}
+              style={{ display: "none" }}
+              onChange={(event) => handleChange(event)}
               ref={hiddenFileInput}
               type="file"
             />
-            <button type="button" onClick={() => hiddenFileInput.current.click()}>
+            <button
+              type="button"
+              onClick={() => hiddenFileInput.current.click()}
+            >
               <PhotoIcon className="h-8 w-8 text-blue-500" />
             </button>
           </div>
