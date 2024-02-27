@@ -1,9 +1,9 @@
-import React, { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import MessageList from '../components/Message/MessageList';
 import MessageInput from '../components/Message/MessageInput';
 import { io } from 'socket.io-client';
 
-const openSocket = io("https://ai-translator-backend.vercel.app");
+const openSocket = io(import.meta.env.SOCKET_URL ?? 'http://localhost:3000');
 
 const ChatScreen = memo(() => {
 
@@ -38,5 +38,7 @@ const ChatScreen = memo(() => {
     </div>
   )
 })
+
+ChatScreen.displayName = 'ChatScreen';
 
 export default ChatScreen
