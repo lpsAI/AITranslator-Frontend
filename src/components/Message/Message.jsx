@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-const Message = ({ text, isUser, id, myId, fromLang }) => {
+const Message = ({ text, id, myId, fromLang }) => {
   const [transText, setTransText] = useState('');
   const language =  localStorage.getItem('language');
 
@@ -15,18 +15,18 @@ const Message = ({ text, isUser, id, myId, fromLang }) => {
     });
 
     setTransText(response.data.translations[0].text)
-  }, [text, language])
+  }, [fromLang])
 
   useEffect(() => {
     translateAPI(text, language)
-  }, [translateAPI])
+  }, [language, text, translateAPI])
 
   return (
     <div className={`flex flex-col ${id === myId ? 'items-end' : 'items-start'}`}>
       <p className='font-bold text-base'>{id === myId ? 'You' : id}</p>
       <div className={`flex ${id === myId ? 'justify-end' : 'justify-start'} mb-2`}>
         <div className={`rounded-lg p-2 ${id === myId ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
-          {transText ? transText : <span class="loading loading-dots loading-md"></span>}
+          {transText ? transText : <span className="loading loading-dots loading-md"></span>}
         </div>
       </div>
     </div>
