@@ -2,9 +2,12 @@ import React, { useRef, useState } from "react";
 import { PaperAirplaneIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAppContext } from "../../context/AppContext";
+import { supabase } from "../../SupabaseClient";
 
-const MessageInput = ({ addMessage }) => {
+const MessageInput = ({ chatId }) => {
   const [text, setText] = useState("");
+  const { currentUser } = useAppContext()
   const toastId = React.useRef(null);
 
   function handleUpload(file) {
@@ -58,17 +61,32 @@ const MessageInput = ({ addMessage }) => {
       handleUpload(event.target.files[0])
     };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.trim() !== "") {
-      addMessage(text, true);
+      // addMessage(text, true);
+      try {
+        const { error } = await supabase.from('messages').insert([{
+          chat_id: parseInt(chatId),
+          author_id: currentUser.id,
+          content: text.trim(),
+          from_lang: localStorage.getItem('language')
+        }])
+
+        if (error) {
+          toast.error(error.message);
+          return;
+        }
+      } catch (error) {
+        toast.error(error)
+      }
       setText('');
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="container mx-auto py-4 p-8">
+      <form onSubmit={handleSubmit} className="container bg-gray-200 mx-auto py-4 p-8">
         <div className="relative">
           <input
             type="text"

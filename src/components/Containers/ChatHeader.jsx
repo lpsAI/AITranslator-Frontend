@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Modalbase } from "../Modal/ModalBase";
+import { useAuth } from "../../context/AuthContext";
+import { redirect } from "react-router";
+import { toast } from "react-toastify";
+import { useAppContext } from "../../context/AppContext";
 
 export const ChatHeader = () => {
   const [languageList, setLanguageList] = useState([]);
@@ -8,9 +12,12 @@ export const ChatHeader = () => {
   const [toClose, setToClose] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParam] = useState(["langId"]);
+  const { onLangChange } = useAppContext()
+
+  const { signOut } = useAuth()
 
   const handleLanguageChange = (langId) => {
-    localStorage.setItem("language", langId);
+    onLangChange(langId);
     setToClose(!toClose);
   };
 
@@ -63,11 +70,19 @@ export const ChatHeader = () => {
     initAllLanguages();
   }, []);
 
+  const handleLogout = async () => {
+    await signOut()
+    localStorage.removeItem('user');
+    toast.info('Logged out successfully!');
+    redirect('/login');
+  }
+
   return (
   <>
   <div className="navbar bg-base-300 sticky top-0">
   <div className="flex-1 px-2 lg:flex-none">
     <a className="text-lg font-bold">LPS AI Translator</a>
+    <a className="text-md m-2 text-center cursor-pointer" onClick={() => handleLogout()}>Logout</a>
   </div>
   <div className="flex justify-end flex-1 px-2">
     <div className="flex items-stretch">
