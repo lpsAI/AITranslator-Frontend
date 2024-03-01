@@ -12,7 +12,7 @@ export const ChatHeader = () => {
   const [toClose, setToClose] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParam] = useState(["langId"]);
-  const { onLangChange } = useAppContext()
+  const { onLangChange, currentUser } = useAppContext()
 
   const { signOut } = useAuth()
 
@@ -80,11 +80,14 @@ export const ChatHeader = () => {
   return (
   <>
   <div className="navbar bg-base-300 sticky top-0">
-  <div className="flex-1 px-2 lg:flex-none">
-    <a className="text-lg font-bold">LPS AI Translator</a>
+  <div className="navbar-start">
+    <a className="text-lg font-bold">Welcome {currentUser.email}!</a>
     <a className="text-md m-2 text-center cursor-pointer" onClick={() => handleLogout()}>Logout</a>
   </div>
-  <div className="flex justify-end flex-1 px-2">
+  <div className="navbar-center">
+    <a className="text-lg font-bold">LPS AI Translator</a>
+  </div>
+  <div className="navbar-end">
     <div className="flex items-stretch">
       <ul className="menu menu-horizontal px-1">
         <li><a className="text-lg m-2 text-center" href={'/'}>Chat</a></li>
