@@ -87,7 +87,7 @@ const MessageInput = ({ chatId }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="container bg-gray-200 mx-auto py-4 p-8">
-        <div className="relative">
+        <div className="flex flex-row justify-evenly">
           <input
             type="text"
             value={text}
@@ -95,17 +95,18 @@ const MessageInput = ({ chatId }) => {
             className="w-11/12 mb-2 border border-gray-300 rounded-md p-2 outline-none"
             placeholder="Type your message..."
           />
-          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex space-x-2 -my-1">
+          <div className="flex space-x-2 -my-1">
             {/* <PaperAirplaneIcon className="h-8 w-8 text-blue-500 mx-2" /> */}
 
             <input
               style={{display: 'none'}}
+              className="hidden"
               onChange={event => handleChange(event)}
               ref={hiddenFileInput}
               type="file"
             />
             <button type="button" onClick={() => hiddenFileInput.current.click()}>
-              <PhotoIcon className="h-8 w-8 text-blue-500" />
+              <PhotoIcon className="h-8 w-8 text-primary" />
             </button>
           </div>
         </div>

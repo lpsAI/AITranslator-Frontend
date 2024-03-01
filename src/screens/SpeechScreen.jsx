@@ -22,7 +22,7 @@ export const SpeechScreen = () => {
   }
   
 
-  return (<div className="container">    
+  return (<div className="w-screen">    
   <div className="w-full h-auto flex flex-row justify-evenly my-5">
     <Select selectedVal={selectedLang} label="Selected Source Language" subLabel={selectedLang} onSelcted={handleSelectedList}>
       {JSON.parse(localStorage.getItem('locale_list')).map((lang, key) => (<option key={key} value={lang.locale}>{lang.label}</option>))}

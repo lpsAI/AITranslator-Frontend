@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import MessageList from '../components/Message/MessageList';
 import MessageInput from '../components/Message/MessageInput';
 import { ChatOverviewList } from '../components/ChatList/ChatOverviewList';
@@ -10,24 +10,24 @@ const ChatScreen = memo(() => {
 
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    const getAllMessages = async () => {
-      if (chatId) {
-        const {data, error} = await supabase.from("messages").select("*").eq("chat_id", chatId);
-        if (error) {
-          setMessages([])
-        } else {
-          if (data && data.length != 0) {
-            setMessages(oldVals => [...oldVals, ...data]);
-          }
+  const getAllMessages = useCallback(async () => {
+    if (chatId) {
+      const {data, error} = await supabase.from("messages").select("*").eq("chat_id", chatId);
+      if (error) {
+        setMessages([])
+      } else {
+        if (data && data.length != 0) {
+          setMessages([...data]);
         }
       }
     }
-    
+  }, [chatId])
+
+  useEffect(() => {
     const msgSubscription = supabase
         .channel('lps_chat')
         .on("postgres_changes", { event: "*", schema: "public", table: "messages" },  (newMsgs) => {
-          setMessages(oldVals => [...oldVals, newMsgs.new]);
+          setMessages(newMsgs.new);
     })
     .subscribe();
 
@@ -36,7 +36,7 @@ const ChatScreen = memo(() => {
     return () => {
       msgSubscription.unsubscribe();
     }
-  }, [chatId]);
+  }, [getAllMessages]);
 
   const handleChatId = (chatId, email) => {
     setChatId(chatId);
@@ -45,7 +45,7 @@ const ChatScreen = memo(() => {
 
   return (
     <div className="w-full h-[89vh] flex flex-row">
-      <div className="h-auto container w-3/12 bg-blue-300">
+      <div className="h-auto container w-3/12 bg-primary">
         <ChatOverviewList chatIdListener={handleChatId} />
       </div>
       {chatId && <div className="flex flex-col w-9/12">
