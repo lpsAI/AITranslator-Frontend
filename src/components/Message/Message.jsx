@@ -1,14 +1,20 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
+import { useAppContext } from '../../context/AppContext';
+import dayjs from 'dayjs';
 
-const Message = ({ text, id, myId, fromLang }) => {
+const defaultLang = localStorage.getItem('language');
+
+const Message = ({ text, fromLang, myId, otherUser, time }) => {
   const [transText, setTransText] = useState('');
-  const language =  localStorage.getItem('language');
+  const { currentUser, language } = useAppContext();
+
+  console.log(language);
 
   const translateAPI = useCallback( async (text, language) => {
     const response = await axios.post("https://ai-translator-backend.vercel.app/api/v1/ai",{
       text, 
-      language, 
+      language: language ?? defaultLang, 
       fromLang
     } , {
       headers: {'X-Custom-Header': 'foobar'}
@@ -22,14 +28,23 @@ const Message = ({ text, id, myId, fromLang }) => {
   }, [language, text, translateAPI])
 
   return (
-    <div className={`flex flex-col ${id === myId ? 'items-end' : 'items-start'}`}>
-      <p className='font-bold text-base'>{id === myId ? 'You' : id}</p>
-      <div className={`flex ${id === myId ? 'justify-end' : 'justify-start'} mb-2`}>
-        <div className={`rounded-lg p-2 ${id === myId ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
-          {transText ? transText : <span className="loading loading-dots loading-md"></span>}
-        </div>
+    // <div className={`flex flex-col ${myId === currentUser.id ? 'items-end' : 'items-start'}`}>
+    //   <p className='font-bold text-base'>{myId === currentUser.id ? 'You' : otherUser}</p>
+    //   <div className={`flex ${myId === currentUser.id ? 'justify-end' : 'justify-start'} mb-2`}>
+    //     <div className={`rounded-lg p-2 ${myId === currentUser.id ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
+    //       {transText ? transText : <span className="loading loading-dots loading-md"></span>}
+    //     </div>
+    //   </div>
+    // </div>
+    <>
+    <div className={`chat ${myId === currentUser.id ? 'chat-end' : 'chat-start'}`}>
+      <div className="chat-header">
+        {myId === currentUser.id ? 'You' : otherUser}
+        <time className="text-xs opacity-50">{dayjs(time).format('DD/MM/YYYY')}</time>
       </div>
+      <div className={`chat-bubble ${myId === currentUser.id ? 'chat-bubble-primary' : ''}`}>{transText ? transText : <span className="loading loading-dots loading-md"></span>}</div>
     </div>
+    </>
   );
 }
 

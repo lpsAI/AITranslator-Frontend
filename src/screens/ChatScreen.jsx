@@ -1,40 +1,59 @@
 import { memo, useEffect, useState } from 'react';
 import MessageList from '../components/Message/MessageList';
 import MessageInput from '../components/Message/MessageInput';
-import { io } from 'socket.io-client';
-
-const openSocket = io(import.meta.env.SOCKET_URL ?? 'http://localhost:3000');
+import { ChatOverviewList } from '../components/ChatList/ChatOverviewList';
+import { supabase } from '../SupabaseClient';
 
 const ChatScreen = memo(() => {
+  const [chatId, setChatId] = useState('');
+  const [chatUser, setChatUser] = useState('');
 
-    const [messages, setMessages] = useState([]);
-    const language =  localStorage.getItem('language');
+  const [messages, setMessages] = useState([]);
 
-    const addMessage = async (text, isUser = true) => {
-      openSocket.emit('sendMessage', {text, isUser, id: openSocket.id, fromLang: language});
-
-      // setMessages(prevMessages => [...prevMessages, { text:data, isUser }]);
+  useEffect(() => {
+    const getAllMessages = async () => {
+      if (chatId) {
+        const {data, error} = await supabase.from("messages").select("*").eq("chat_id", chatId);
+        if (error) {
+          setMessages([])
+        } else {
+          if (data && data.length != 0) {
+            setMessages(oldVals => [...oldVals, ...data]);
+          }
+        }
+      }
+    }
     
-    };
+    const msgSubscription = supabase
+        .channel('lps_chat')
+        .on("postgres_changes", { event: "*", schema: "public", table: "messages" },  (newMsgs) => {
+          setMessages(oldVals => [...oldVals, newMsgs.new]);
+    })
+    .subscribe();
 
-    useEffect(() => {
-      const broadcastMsg =  ({text, isUser, id, fromLang}) => {
-        setMessages([...messages, { text, isUser, id, fromLang }]);
-      }
+    getAllMessages();
 
-      openSocket.on('message', (remoteMsg) => broadcastMsg(remoteMsg));
+    return () => {
+      msgSubscription.unsubscribe();
+    }
+  }, [chatId]);
 
-      return () => {
-        openSocket.off('message', (remoteMsg) => broadcastMsg(remoteMsg))
-      }
-    }, [messages]);
+  const handleChatId = (chatId, email) => {
+    setChatId(chatId);
+    setChatUser(email)
+  }
 
   return (
-    <div className="bg-gray-100 container h-[92vh] flex flex-col">
-      <div className="container mx-auto py-8 h-full">
-        <MessageList messages={messages} myId={openSocket.id} />
+    <div className="w-full h-[89vh] flex flex-row">
+      <div className="h-auto container w-3/12 bg-blue-300">
+        <ChatOverviewList chatIdListener={handleChatId} />
       </div>
-      <MessageInput addMessage={addMessage} />
+      {chatId && <div className="flex flex-col w-9/12">
+        <div className="bg-base-200 container mx-auto py-8 h-full">
+          <MessageList messages={messages} otherUser={chatUser} />
+        </div>
+        <MessageInput chatId={chatId} />
+      </div>}
     </div>
   )
 })
