@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "../SupabaseClient";
+import { useAuth } from "./AuthContext";
 
 const AppContext = createContext({});
 
 
 export const AppContextProvider = ({children}) => {
   let myChannel = null;
-  const currentUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {id: '', username: ''};
+  const { user } = useAuth();
+  let currentUser = user && user.id ? user : {id: '', username: ''};
 
   const [chats, setChats] = useState([]);
   const [loadingInitial, setLoadingInitial] = useState(true);
@@ -34,7 +36,7 @@ export const AppContextProvider = ({children}) => {
       setIsInitialLoad(false);
       scrollToBottom();
     }
-  }, [chats]);
+  }, []);
 
   useEffect(() => {
     if (!newIncomingChatTrigger) return;
@@ -68,7 +70,7 @@ export const AppContextProvider = ({children}) => {
   }
 
   const getInitialChats = async () => {
-    if (currentUser) {
+    if (currentUser.id != '') {
       // get all chats where the current user is a member
     const { data: chatIds } = await supabase
     .from('chats')

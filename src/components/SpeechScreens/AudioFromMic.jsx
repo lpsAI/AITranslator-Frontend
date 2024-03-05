@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 
 const SPEECH_KEY = import.meta.env.VITE_SPEECH_KEY;
@@ -9,7 +9,9 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
   const [myTranscript, setMyTranscript] = useState([]);
   const [recognizingTranscript, setRecTranscript] = useState([]);
   const recognizerRef = useRef(null);
-  
+  const recogTextArea = useRef(null)
+  const transTextArea = useRef(null)
+  const autoHeight = useRef();
   const speechConfig = sdk.SpeechTranslationConfig.fromSubscription(
     SPEECH_KEY,
     SPEECH_REGION
@@ -95,13 +97,39 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
     }
   }
 
-  const increseHeightOnInput = (e) => {
-    e.target.style.height = 'inherit';
-    e.target.style.height = `${e.target.scrollHeight}px`; 
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
-  }
-  
+  useLayoutEffect(() => {
+    if (!recogTextArea.current || !transTextArea.current) {
+      return;
+    }
+    
+    
+    if (
+      autoHeight.current !== undefined &&
+      recogTextArea.current.style.height !== autoHeight.current &&
+      transTextArea.current.style.height !== autoHeight.current
+    ) {
+      // don't auto size if the user has manually changed the height
+      return;
+    }
+
+    recogTextArea.current.style.height = "auto";
+    transTextArea.current.style.height = "auto";
+
+    recogTextArea.current.style.overflow = "hidden";
+    transTextArea.current.style.overflow = "hidden";
+
+    const next = `${recogTextArea.current.scrollHeight}px`;
+    const nextTwo = `${transTextArea.current.scrollHeight}px`;
+
+    recogTextArea.current.style.height = next;
+    transTextArea.current.style.height = nextTwo
+
+    autoHeight.current = next;
+    transTextArea.current.style.overflow = "auto";
+    recogTextArea.current.style.overflow = "auto";
+
+  }, [recognizingTranscript, myTranscript, recogTextArea, transTextArea, autoHeight]);
+
   return (<>
     <h1 className="text-xl text-bold text-center my-2"> {isListening ? 'Mic is ON' : 'Mic off'}</h1>
     <div className="flex flex-row my-2 px-2 justify-center">
@@ -115,9 +143,9 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
           <div className="label">
             <span className="label-text">Incoming</span>
           </div>
-          <textarea className="textarea textarea-bordered textarea-lg overflow-auto"
+          <textarea className="textarea textarea-bordered textarea-lg"
             readOnly={true}
-            onChange={e => increseHeightOnInput(e)}
+            ref={recogTextArea}
             defaultValue={recognizingTranscript.join('\n')}
           />
         </label>
@@ -127,9 +155,9 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
           <div className="label">
             <span className="label-text">Translated</span>
           </div>
-          <textarea className="textarea textarea-bordered textarea-lg overflow-auto"
+          <textarea className="textarea textarea-bordered textarea-lg"
             readOnly={true}
-            onChange={e => increseHeightOnInput(e)}
+            ref={transTextArea}
             defaultValue={myTranscript.join('\n')}
           />
         </label>

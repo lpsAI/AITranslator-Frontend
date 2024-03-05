@@ -10,6 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedScreen } from './screens/ProtectedScreen';
 import { AppContextProvider } from './context/AppContext';
 import { ToastContainer } from 'react-toastify';
+import { SuspenseContent } from './components/Suspense/SuspenseContent';
 
 function App() {
   
@@ -17,7 +18,7 @@ function App() {
     path: '/',
     element: <ProtectedScreen />,
       children: [{
-      path: 'speech',
+      path: 'voice',
       element: <><ChatHeader /><SpeechScreen /></>
     }, {
       path: '/',
@@ -34,7 +35,7 @@ function App() {
           {/* <ChatScreen/> */}
           <AuthProvider>
             <AppContextProvider>
-              <RouterProvider router={router} />
+              <RouterProvider router={router} fallbackElement={SuspenseContent} />
             </AppContextProvider>
           </AuthProvider>
       </div>

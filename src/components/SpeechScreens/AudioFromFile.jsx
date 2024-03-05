@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useLayoutEffect, useRef, useState } from "react";
 import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 const SPEECH_KEY = import.meta.env.VITE_SPEECH_KEY;
 const SPEECH_REGION = import.meta.env.VITE_SPEECH_REGION;
@@ -7,6 +7,7 @@ import wav from 'audiobuffer-to-wav';
 
 const AudioFromFile = memo(({sourceLang, targetLang}) => {
   const [transcript, setTranscript] = useState('');
+  const [loader, setLoader] = useState(false);
   const speechConfig = sdk.SpeechTranslationConfig.fromSubscription(
     SPEECH_KEY,
     SPEECH_REGION
@@ -15,6 +16,10 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
   speechConfig.addTargetLanguage(targetLang)
   speechConfig.setProfanity(sdk.ProfanityOption.Raw);
   speechConfig.enableDictation();
+
+  const recogTextArea = useRef(null)
+  const autoHeight = useRef();
+
 
   const initAudioTranslate = (selectedFile) => {
 
@@ -31,17 +36,33 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
 
        recognizer.recognizeOnceAsync(result => {
         setTranscript(result.translations.get(targetLang));
+        setLoader(false);
         recognizer.close();
       });
       
   }
 
-  const increseHeightOnInput = (e) => {
-    e.target.style.height = 'auto';
-    e.target.style.height = `${e.target.scrollHeight}px`; 
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
-  }
+  useLayoutEffect(() => {
+    if (!recogTextArea.current) {
+      return;
+    }
+
+    if (
+      autoHeight.current !== undefined &&
+      recogTextArea.current.style.height !== autoHeight.current
+    ) {
+      // don't auto size if the user has manually changed the height
+      return;
+    }
+
+    recogTextArea.current.style.height = "auto";
+    recogTextArea.current.style.overflow = "hidden";
+    const next = `${recogTextArea.current.scrollHeight}px`;
+    recogTextArea.current.style.height = next;
+    autoHeight.current = next;
+    recogTextArea.current.style.overflow = "auto";
+
+  }, [transcript, recogTextArea, autoHeight])
   
   /**
    * 
@@ -60,7 +81,8 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
         for (let i = 0; i < subByteArray.length; i++) {
           fileHeader += subByteArray[i].toString(16);
         }
-  
+        
+        setLoader(true);
         if (fileHeader === '52494646') {
           initAudioTranslate(rawFile);
         } else {
@@ -78,13 +100,13 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
     <input type="file" accept="audio/wav, audio/*, video/*" onChange={e => handleFileChange(e)} className="file-input w-[20%] max-w-xs my-2 mr-2" />
     <label className="form-control w-[80%] border-l-2 p-2 border-black">
         <div className="label">
-          <span className="label-text">Translated</span>
+          <span className="label-text">{!loader ? 'Translated' : 'Translating...'}</span>
         </div>
-        <textarea className="textarea textarea-bordered overflow-auto"
+        {!loader ? <textarea className="textarea textarea-bordered"
           readOnly={true}
-          onChange={e => increseHeightOnInput(e)}
-          value={transcript}
-        />
+          ref={recogTextArea}
+          defaultValue={transcript}
+        /> : <span className="ml-3 loading loading-dots loading-lg"></span>}
     </label>
   </div>
   )

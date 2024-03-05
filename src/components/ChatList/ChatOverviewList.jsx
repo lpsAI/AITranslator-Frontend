@@ -3,10 +3,12 @@ import { supabase } from "../../SupabaseClient"
 import { useAppContext } from "../../context/AppContext";
 import { UserChat } from "../Card/UserChat";
 import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
 
 export const ChatOverviewList = ({chatIdListener}) => {
   const [newUser, setNewUser] = useState('');
   const { chats, currentUser } = useAppContext()
+  const { user } = useAuth();
 
   const createChatWithUser = async (e) => {
     e.preventDefault();
@@ -29,7 +31,7 @@ export const ChatOverviewList = ({chatIdListener}) => {
           .from('users')
           .insert([{
             chat_id: chatData.data.id,
-            user_id: currentUser.id
+            user_id: user.id ?? currentUser.id
           },  {
             chat_id: chatData.data.id,
             user_id: otherUserData[0].id
@@ -58,18 +60,18 @@ export const ChatOverviewList = ({chatIdListener}) => {
         <button type="button" className="btn btn-active bg-gray-200 rounded p-2 hover:bg-gray-300" onClick={(e) => createChatWithUser(e)}>Create chat</button>
         <ul className="list-none py-2">
         {chats && chats.map((aChat, index) => (<li key={index}>
-          <a onClick={() => chatIdListener(aChat.id, formatEmail(aChat.users, currentUser))}><UserChat chatUserNames={formatEmail(aChat.users, currentUser)} /></a>
+          <a onClick={() => chatIdListener(aChat.id, formatEmail(aChat.users, currentUser, user))}><UserChat chatUserNames={formatEmail(aChat.users, currentUser)} /></a>
         </li>))}
         </ul>
     </div>
   </div>)
 }
 
-const formatEmail = (chat, currentUser) => {
+const formatEmail = (chat, currentUser, defaultUser) => {
   if (chat instanceof Array) {
-    return chat.map((user) => {
-      return user.user instanceof Array ? user.user[0].email : user.user.email;
-    }).filter(email => email !== currentUser.email).join(", ");
+    return chat.map((aUser) => {
+      return aUser.user instanceof Array ? aUser.user[0].email : aUser.user.email;
+    }).filter(email => email !== (currentUser.email ?? defaultUser.email)).join(", ");
   }
   return "";
 }
