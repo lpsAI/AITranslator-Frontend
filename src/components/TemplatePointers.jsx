@@ -1,9 +1,9 @@
 function TemplatePointers(){
     return(
         <>
-         <h1 className="text-2xl mt-8 font-bold">LPS AI Translator</h1>
+         <h1 className="text-2xl mt-8 font-bold">LPS Translator</h1>
           <p className="py-2"><span>
-        Welcome to our revolutionary chatbot AI tool, your gateway to seamless translation of both text and images! Say goodbye to language barriers and hello to global connectivity. Whether you're deciphering foreign text or interpreting images, our chatbot AI is here to make communication effortless. Let's embark on a journey where language is no longer a barrier but a bridge to understanding. Let's explore the world together, one word and one image at a time.</span></p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></p>
          
         </>
     )

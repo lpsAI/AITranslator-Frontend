@@ -6,7 +6,7 @@ import AudioFromMic from '../components/SpeechScreens/AudioFromMic'
 
 export const SpeechScreen = () => {
   const [selectedLang, setSelectedLang] = useState(localStorage.getItem('default_locale'));
-  const [selectedTargetLang, setSelectedTargetLang] = useState(localStorage.getItem('language'));
+  const [selectedTargetLang, setSelectedTargetLang] = useState();
   const [mode, setMode] = useState('mic');
 
   const handleSelectedList = (selectedItem) => {

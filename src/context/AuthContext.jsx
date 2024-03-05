@@ -12,16 +12,25 @@ export const AuthProvider = ({children}) => {
   useEffect(() => {
       supabase.auth.getSession().then(({ data: { session } }) => {
           setUser(session ? session?.user : null);
-          localStorage.setItem('user', session ? JSON.stringify(session?.user) : null);
+          if (session) {
+            localStorage.setItem('user', JSON.stringify(session?.user));
+          }
           setLoading(false);
       });
 
       const {
         data: { subscription },
       } = supabase.auth.onAuthStateChange((_event, session) => {
-        setUser(session ? session?.user : null);
-        localStorage.setItem('user', session ? JSON.stringify(session?.user) : null);
-        setLoading(false)
+        if (_event === 'SIGNED_IN') {
+          setUser(session.user);
+          if (session) {
+            localStorage.setItem('user', JSON.stringify(session?.user));
+          }
+          setLoading(false)
+        } else if (_event === 'SIGNED_OUT') {
+          setUser(null);
+          localStorage.removeItem('user');
+        }
       })
 
    

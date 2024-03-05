@@ -39,7 +39,7 @@ const LoginScreen = () => {
                     toast.error(error.message)
                 } else {
                     toast.info(`User ${data.user.email} is logged in`)
-                    navigate('/')
+                    location.href = '/';
                 }
 
             } else {
@@ -52,6 +52,10 @@ const LoginScreen = () => {
                     toast.error(error.message)
                 } else {
                     toast.info(`Check your email for the login link ${loginObj.email}`)
+                    setLoginObj({
+                        email: '',
+                        password: ''
+                    })
                     setToLogin(prev => !prev);
                 }
 

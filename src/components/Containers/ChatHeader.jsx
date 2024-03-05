@@ -14,7 +14,7 @@ export const ChatHeader = () => {
   const [searchParam] = useState(["langId"]);
   const { onLangChange, currentUser } = useAppContext()
 
-  const { signOut } = useAuth()
+  const { signOut, user } = useAuth()
 
   const handleLanguageChange = (langId) => {
     onLangChange(langId);
@@ -72,7 +72,6 @@ export const ChatHeader = () => {
 
   const handleLogout = async () => {
     await signOut()
-    localStorage.removeItem('user');
     toast.info('Logged out successfully!');
     redirect('/login');
   }
@@ -81,7 +80,7 @@ export const ChatHeader = () => {
   <>
   <div className="navbar bg-base-300 sticky top-0">
   <div className="navbar-start">
-    <a className="text-lg font-bold">Welcome {currentUser.email}!</a>
+    <a className="text-lg font-bold">Welcome {currentUser.email ?? user.email}!</a>
     <a className="text-md m-2 text-center cursor-pointer" onClick={() => handleLogout()}>Logout</a>
   </div>
   <div className="navbar-center">
@@ -91,7 +90,7 @@ export const ChatHeader = () => {
     <div className="flex items-stretch">
       <ul className="menu menu-horizontal px-1">
         <li><a className="text-lg m-2 text-center" href={'/'}>Chat</a></li>
-        <li><a className="text-lg m-2 text-center" href={'speech'}>Speech</a></li>
+        <li><a className="text-lg m-2 text-center" href={'voice'}>Voice</a></li>
         <li><a className="text-lg m-2 text-center" type="button" onClick={() => setToClose(true)}>Language <b>{localStorage.getItem('language')}</b></a></li>
       </ul>
     </div>
