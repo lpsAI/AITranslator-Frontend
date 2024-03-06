@@ -14,9 +14,8 @@ export const AppContextProvider = ({children}) => {
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [error, setError] = useState("");
   const [isInitialLoad, setIsInitialLoad] = useState(false);
-  const [newIncomingChatTrigger, setNewIncomingChatTrigger] = useState(null);
+  // const [newIncomingChatTrigger, setNewIncomingChatTrigger] = useState(null);
   const scrollRef = useRef();
-  const [unviewedChatCount, setUnviewedChatCount] = useState(0);
   const [language, setLanguage] = useState(null)
 
 
@@ -38,18 +37,6 @@ export const AppContextProvider = ({children}) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!newIncomingChatTrigger) return;
-
-    if (newIncomingChatTrigger.username === currentUser.username) {
-      scrollToBottom();
-    } else {
-      setUnviewedChatCount((prevCount) => prevCount + 1);
-    }
-  }, [newIncomingChatTrigger]);
-
-
-
   const getChatsAndUsers = async () => {
 
     await getInitialChats();
@@ -60,8 +47,8 @@ export const AppContextProvider = ({children}) => {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "chats" },
-        (payload) => {
-          handleNewChat(payload.new);
+        async () => {
+          await getInitialChats();
         }
       )
       .subscribe();
@@ -72,34 +59,34 @@ export const AppContextProvider = ({children}) => {
   const getInitialChats = async () => {
     if (currentUser.id != '') {
       // get all chats where the current user is a member
-    const { data: chatIds } = await supabase
+    // const { data: chatIds } = await 
+    
+    
+    supabase
     .from('chats')
     .select('id, users:users!inner(user_id)')
-    .eq('users.user_id', currentUser.id)
-
-    // get all chats with the user profiles
-    const { data, error } =  await supabase
+    .eq('users.user_id', currentUser.id).then(resData => {
+      // get all chats with the user profiles
+      supabase
       .from('chats')
       .select('*, users:users!inner(user:profiles(email))')
-      .in('id', [chatIds.map(chat => chat.id)])
-
-      setLoadingInitial(false);
-
-      if (error) {
+      .in('id', [resData.data.map(chat => chat.id)]).then(users => {
+        setLoadingInitial(false);
+        setIsInitialLoad(true);
+        setChats(users.data);
+      }, error => {
         setError(error.message);
         return;
-      }
-
-      setIsInitialLoad(true);
-      setChats(data);
+      });
+    });
     }
   }
 
-  const handleNewChat = (payload) => {
-    setChats((prevMessages) => [...prevMessages, payload]);
-    //* needed to trigger react state because I need access to the username state
-    setNewIncomingChatTrigger(payload);
-  };
+  // const handleNewChat = (payload) => {
+  //   setChats((prevMessages) => [...prevMessages, payload]);
+  //   //* needed to trigger react state because I need access to the username state
+  //   setNewIncomingChatTrigger(payload);
+  // };
 
   const scrollToBottom = () => {
     if (!scrollRef.current) return;
@@ -121,7 +108,6 @@ export const AppContextProvider = ({children}) => {
           getChatsAndUsers,
           scrollRef,
           scrollToBottom,
-          unviewedChatCount,
           currentUser,
           onLangChange,
           language

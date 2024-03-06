@@ -42,6 +42,7 @@ export const ChatOverviewList = ({chatIdListener}) => {
             return;
           }
 
+          setNewUser('');
           toast.success(`New chat with ${newUser}!`)
         }, error => {
           toast.error(error.message);
