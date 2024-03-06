@@ -27,7 +27,7 @@ const ChatScreen = memo(() => {
     const msgSubscription = supabase
         .channel('lps_chat')
         .on("postgres_changes", { event: "*", schema: "public", table: "messages" },  (newMsgs) => {
-          setMessages(newMsgs.new);
+          setMessages(prevMsgs => [...prevMsgs, newMsgs.new]);
     })
     .subscribe();
 

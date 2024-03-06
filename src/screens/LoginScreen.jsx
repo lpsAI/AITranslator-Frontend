@@ -4,7 +4,6 @@ import InputText from '../components/InputText/InputText'
 import ErrorText from '../components/ErrorText/ErrorText'
 import { toast } from 'react-toastify'
 import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router'
 
 const LoginScreen = () => {
 
@@ -17,7 +16,6 @@ const LoginScreen = () => {
     const [errorMessage, setErrorMessage] = useState("")
     const [loginObj, setLoginObj] = useState(INITIAL_LOGIN_OBJ)
     const [toLogin, setToLogin] = useState(true);
-    const navigate = useNavigate();
 
     const { signUp, signIn } = useAuth()
 

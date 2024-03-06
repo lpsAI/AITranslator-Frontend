@@ -8,7 +8,7 @@ const AppContext = createContext({});
 export const AppContextProvider = ({children}) => {
   let myChannel = null;
   const { user } = useAuth();
-  let currentUser = user && user.id ? user : {id: '', username: ''};
+  let currentUser = user && user.id ? user : localStorage.getItem('user') != null ? JSON.parse(localStorage.getItem('user')) : {id: '', username: ''};
 
   const [chats, setChats] = useState([]);
   const [loadingInitial, setLoadingInitial] = useState(true);
@@ -61,7 +61,7 @@ export const AppContextProvider = ({children}) => {
         "postgres_changes",
         { event: "*", schema: "public", table: "chats" },
         (payload) => {
-          handleNewChat(payload);
+          handleNewChat(payload.new);
         }
       )
       .subscribe();
@@ -96,9 +96,9 @@ export const AppContextProvider = ({children}) => {
   }
 
   const handleNewChat = (payload) => {
-    setChats((prevMessages) => [payload.new, ...prevMessages]);
+    setChats((prevMessages) => [...prevMessages, payload]);
     //* needed to trigger react state because I need access to the username state
-    setNewIncomingChatTrigger(payload.new);
+    setNewIncomingChatTrigger(payload);
   };
 
   const scrollToBottom = () => {
