@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { PaperAirplaneIcon, PhotoIcon } from "@heroicons/react/24/solid";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
@@ -7,7 +7,7 @@ import { supabase } from "../../SupabaseClient";
 
 const MessageInput = ({ chatId }) => {
   const [text, setText] = useState("");
-  const { currentUser } = useAppContext()
+  const { currentUser, language } = useAppContext()
   const toastId = React.useRef(null);
 
   function handleUpload(file) {
@@ -20,9 +20,10 @@ const MessageInput = ({ chatId }) => {
     }
     const fd = new FormData();
     fd.append("file", file);
+    fd.append('fromLanguage', language ?? localStorage.getItem('language'))
 
     axios
-      .post("https://ai-translator-backend.vercel.app/api/v1/upload", fd, {
+      .post("https://ai-translator-backend.vercel.app/api/v1/imageAnalyzer", fd, {
         onUploadProgress: (progressEvent) => {
           const progress = progressEvent.loaded / progressEvent.total;
 
@@ -36,12 +37,30 @@ const MessageInput = ({ chatId }) => {
           "Custom-Header": "value",
         },
       })
-      .then(() => {
-        toast.done(toastId);
-        toast.success("Upload Successful!", {
-          position: "top-right",
-          autoClose: 3000
-        });      
+      .then(async (respData) => {
+        try {
+          const { error } = await supabase.from('messages').insert([{
+            chat_id: parseInt(chatId),
+            author_id: currentUser.id,
+            content: respData.data.detectedText,
+            from_lang: localStorage.getItem('language'),
+            is_image: true,
+            img_url: respData.data.imageUrl
+          }])
+  
+          if (error) {
+            toast.error(error.message);
+            return;
+          }
+
+          toast.done(toastId);
+          toast.success(`Image Sent!`, {
+            position: "top-right",
+            autoClose: 3000
+          });
+        } catch (error) {
+          toast.error(error)
+        }
       })
       .catch((err) => {
         toast.done(toastId);
@@ -101,6 +120,7 @@ const MessageInput = ({ chatId }) => {
             <input
               style={{display: 'none'}}
               className="hidden"
+              accept="image/*"
               onChange={event => handleChange(event)}
               ref={hiddenFileInput}
               type="file"

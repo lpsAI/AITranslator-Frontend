@@ -9,8 +9,6 @@ const Message = ({ text, fromLang, myId, otherUser, time }) => {
   const [transText, setTransText] = useState('');
   const { currentUser, language } = useAppContext();
 
-  console.log(language);
-
   const translateAPI = useCallback( async (text, language) => {
     const response = await axios.post("https://ai-translator-backend.vercel.app/api/v1/ai",{
       text, 
@@ -20,12 +18,12 @@ const Message = ({ text, fromLang, myId, otherUser, time }) => {
       headers: {'X-Custom-Header': 'foobar'}
     });
 
-    setTransText(response.data.translations[0].text)
+    setTransText(response.data.translations[0].text ?? text)
   }, [fromLang])
 
   useEffect(() => {
     translateAPI(text, language)
-  }, [language, text, translateAPI])
+  }, [fromLang, language])
 
   return (
     // <div className={`flex flex-col ${myId === currentUser.id ? 'items-end' : 'items-start'}`}>

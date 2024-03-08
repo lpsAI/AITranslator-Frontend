@@ -49,7 +49,7 @@ const ChatScreen = memo(() => {
         <ChatOverviewList chatIdListener={handleChatId} />
       </div>
       {chatId && <div className="flex flex-col w-9/12">
-        <div className="bg-base-200 container mx-auto py-8 h-full">
+        <div className="bg-base-200 overflow-auto container mx-auto py-8 h-full">
           <MessageList messages={messages} otherUser={chatUser} />
         </div>
         <MessageInput chatId={chatId} />
