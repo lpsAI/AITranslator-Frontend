@@ -14,7 +14,7 @@ const MessageList = ({ messages, otherUser }) => {
             time={message.created_ts} 
             otherUser={otherUser} imgUrl={message.img_url} myId={message.author_id} /> 
           : 
-          <Message fromLang={message.fromLang} 
+          <Message fromLang={message.from_lang} 
                    key={index} text={message.content} 
                    time={message.created_ts} 
                    otherUser={otherUser} 
