@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { redirect } from "react-router";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
+import { Link } from "react-router-dom";
 
 export const ChatHeader = () => {
   const [languageList, setLanguageList] = useState([]);
@@ -89,8 +90,8 @@ export const ChatHeader = () => {
   <div className="navbar-end">
     <div className="flex items-stretch">
       <ul className="menu menu-horizontal px-1">
-        <li><a className="text-lg m-2 text-center" href={'/'}>Chat</a></li>
-        <li><a className="text-lg m-2 text-center" href={'voice'}>Voice</a></li>
+        <li><Link className="text-lg m-2 text-center" to={'/'}>Chat</Link></li>
+        <li><Link className="text-lg m-2 text-center" to={'voice'}>Voice</Link></li>
         <li><a className="text-lg m-2 text-center" type="button" onClick={() => setToClose(true)}>Language <b>{localStorage.getItem('language')}</b></a></li>
       </ul>
     </div>
