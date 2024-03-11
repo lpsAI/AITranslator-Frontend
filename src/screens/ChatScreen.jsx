@@ -44,7 +44,7 @@ const ChatScreen = memo(() => {
   }
 
   return (
-    <div className="w-full h-[89vh] flex flex-row">
+    <div className="w-full h-[85vh] flex flex-row">
       <div className="h-auto container w-3/12 bg-primary">
         <ChatOverviewList chatIdListener={handleChatId} />
       </div>

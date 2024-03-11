@@ -8,7 +8,7 @@ const MessageList = ({ messages, otherUser }) => {
       {messages && messages.length != 0 ? messages.map((message, index) => {
         return message.is_image ? 
           <MessageImage 
-            fromLang={message.fromLang} 
+            fromLang={message.from_lang} 
             key={index} 
             content={message.content} 
             time={message.created_ts} 
