@@ -13,31 +13,33 @@ import { ToastContainer } from 'react-toastify';
 import { SuspenseContent } from './components/Suspense/SuspenseContent';
 
 function App() {
-  
+
   const router = createBrowserRouter([{
     path: '/',
     element: <ProtectedScreen />,
-      children: [{
-      path: 'voice',
-      element: <><ChatHeader /><SpeechScreen /></>
-    }, {
-      path: '/',
-      element: <><ChatHeader /><ChatScreen /></>
-    }]}, 
-   {
+    children: [
+      {
+        path: '/',
+        element: <><ChatHeader /><ChatScreen /></>
+      }, {
+        path: 'voice',
+        element: <><ChatHeader /><SpeechScreen /></>
+      }]
+  },
+  {
     path: 'login',
     element: <LoginScreen />
   }])
   return (
-    <>  
+    <>
       <div className="w-screen mx-auto">
-          {/* <LoginScreen/> */}
-          {/* <ChatScreen/> */}
-          <AuthProvider>
-            <AppContextProvider>
-              <RouterProvider router={router} fallbackElement={SuspenseContent} />
-            </AppContextProvider>
-          </AuthProvider>
+        {/* <LoginScreen/> */}
+        {/* <ChatScreen/> */}
+        <AuthProvider>
+          <AppContextProvider>
+            <RouterProvider router={router} fallbackElement={SuspenseContent} />
+          </AppContextProvider>
+        </AuthProvider>
       </div>
       <ToastContainer />
     </>
