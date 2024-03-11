@@ -29,7 +29,7 @@ export const AuthProvider = ({children}) => {
           setLoading(false)
         } else if (_event === 'SIGNED_OUT') {
           setUser(null);
-          localStorage.removeItem('user');
+          localStorage.clear();
         }
       })
 

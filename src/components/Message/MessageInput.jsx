@@ -39,25 +39,29 @@ const MessageInput = ({ chatId }) => {
       })
       .then(async (respData) => {
         try {
-          const { error } = await supabase.from('messages').insert([{
-            chat_id: parseInt(chatId),
-            author_id: currentUser.id,
-            content: respData.data.detectedText,
-            from_lang: localStorage.getItem('language'),
-            is_image: true,
-            img_url: respData.data.imageUrl
-          }])
+          if (respData && respData.data) {
+            const { error } = await supabase.from('messages').insert([{
+              chat_id: parseInt(chatId),
+              author_id: currentUser.id,
+              content: respData.data.detectedText,
+              from_lang: localStorage.getItem('language'),
+              is_image: true,
+              img_url: respData.data.imageUrl
+            }])
+    
+            if (error) {
+              toast.error(error.message);
+              return;
+            }
   
-          if (error) {
-            toast.error(error.message);
-            return;
+            toast.done(toastId);
+            toast.success(`Image Sent!`, {
+              position: "top-right",
+              autoClose: 3000
+            });
+          } else {
+            toast.done(toastId);
           }
-
-          toast.done(toastId);
-          toast.success(`Image Sent!`, {
-            position: "top-right",
-            autoClose: 3000
-          });
         } catch (error) {
           toast.error(error)
         }
