@@ -90,8 +90,8 @@ export const ChatHeader = () => {
   <div className="navbar-end">
     <div className="flex items-stretch">
       <ul className="menu menu-horizontal px-1">
-        <li><Link className="text-lg m-2 text-center" to={'/'}>Chat</Link></li>
-        <li><Link className="text-lg m-2 text-center" to={'voice'}>Voice</Link></li>
+        <li><Link className="text-lg m-2 text-center" replace={true} to={'/'}>Chat</Link></li>
+        <li><Link className="text-lg m-2 text-center" replace={true} to={'/voice'}>Voice</Link></li>
         <li><a className="text-lg m-2 text-center" type="button" onClick={() => setToClose(true)}>Language <b>{localStorage.getItem('language')}</b></a></li>
       </ul>
     </div>

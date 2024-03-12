@@ -3,6 +3,7 @@ import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
 const SPEECH_KEY = import.meta.env.VITE_SPEECH_KEY;
 const SPEECH_REGION = import.meta.env.VITE_SPEECH_REGION;
 import wav from 'audiobuffer-to-wav';
+import { toast } from "react-toastify";
 
 
 const AudioFromFile = memo(({sourceLang, targetLang}) => {
@@ -22,7 +23,7 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
 
 
   const initAudioTranslate = (selectedFile) => {
-
+    try {
       const audioConfig = sdk.AudioConfig.fromWavFileInput(selectedFile);      
     
       const recognizer = new sdk.TranslationRecognizer(
@@ -35,10 +36,18 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
       // }
 
        recognizer.recognizeOnceAsync(result => {
+        console.log(result.errorDetails);
+
         setTranscript(result.translations.get(targetLang));
         setLoader(false);
         recognizer.close();
       });
+      
+    } catch (error) {
+      setLoader(false);
+      console.log(error);
+      toast.error('Error on translating audio: ' + error.message)
+    }
       
   }
 

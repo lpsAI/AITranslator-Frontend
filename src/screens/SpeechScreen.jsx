@@ -35,7 +35,7 @@ export const SpeechScreen = () => {
     <button className="btn mx-2 btn-outline" disabled={mode === 'mic'} onClick={() => handleMode('mic')}>From Microphone</button>
     <button className="btn mx-2 btn-outline" disabled={mode === 'file'} onClick={() => handleMode('file')}>From File</button>
   </div>
-  {selectedLang && selectedTargetLang && mode === 'mic' && <AudioFromMic key={selectedLang} sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />}
-  {selectedLang && selectedTargetLang && mode === 'file' && <AudioFromFile key={selectedLang}  sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />}
+  {selectedLang && selectedTargetLang && mode === 'mic' && <AudioFromMic key={`mic-${selectedLang}-${selectedTargetLang}`} sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />}
+  {selectedLang && selectedTargetLang && mode === 'file' && <AudioFromFile key={`file-${selectedLang}-${selectedTargetLang}`}  sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />}
 </div>);
 }

@@ -71,7 +71,7 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
         setIsListening(false);
       });
     }
-  }, [])
+  }, [sourceLang, targetLang])
   
   const resumeListening = () => {
     if (!isListening) {
