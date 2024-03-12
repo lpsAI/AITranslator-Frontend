@@ -36,11 +36,14 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
       // }
 
        recognizer.recognizeOnceAsync(result => {
-        console.log(result.errorDetails);
-
-        setTranscript(result.translations.get(targetLang));
-        setLoader(false);
-        recognizer.close();
+        if (result.reason === sdk.ResultReason.RecognizedSpeech) {
+          setTranscript(result.translations.get(targetLang));
+          setLoader(false);
+        } else {
+          toast.error('Error on translating audio: ' + result.errorDetails)
+        }
+        
+        // recognizer.close();
       });
       
     } catch (error) {
