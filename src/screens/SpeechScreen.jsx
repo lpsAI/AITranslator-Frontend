@@ -33,8 +33,8 @@ export const SpeechScreen = () => {
   </div>
   <div className="flex flex-row my-2 px-2 justify-center">
     {selectedLang && selectedTargetLang && <>
-      <button className="btn mx-2 btn-outline" disabled={mode === 'mic'} onClick={() => handleMode('mic')}>From Microphone</button>
-      <button className="btn mx-2 btn-outline" disabled={mode === 'file'} onClick={() => handleMode('file')}>From File</button>
+      <button className="btn mx-2 btn-outline btn-primary" disabled={mode === 'mic'} onClick={() => handleMode('mic')}>From Microphone</button>
+      <button className="btn mx-2 btn-outline btn-primary" disabled={mode === 'file'} onClick={() => handleMode('file')}>From File</button>
     </>}
   </div>
   {selectedLang && selectedTargetLang && mode === 'mic' && (<AudioFromMic key={`mic-${selectedLang}-${selectedTargetLang}`} sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />)}

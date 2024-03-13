@@ -24,7 +24,7 @@ export const MessageImage = ({ imgUrl, myId, otherUser, time, content, fromLang 
 
   useEffect(() => {
     translateAPI(content, language)
-  }, [fromLang, language])
+  }, [fromLang, language, transText])
 
   return <>
     <div className={`chat ${myId === currentUser.id ? 'chat-end' : 'chat-start'}`}>

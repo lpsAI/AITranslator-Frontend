@@ -133,9 +133,9 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
   return (<>
     <h1 className="text-xl text-bold text-center my-2"> {isListening ? 'Mic is ON' : 'Mic off'}</h1>
     <div className="flex flex-row my-2 px-2 justify-center">
-      <button className="btn mx-2 btn-outline" disabled={isListening} onClick={() => resumeListening()}>{isListening ? 'Listening...' : 'Start Listening'}</button>
-      <button className="btn mx-2 btn-outline" disabled={!isListening} onClick={() => stopListening()}>Stop</button>
-      <button className="btn mx-2 btn-outline" disabled={!myTranscript.length > 0 || !recognizingTranscript > 0} onClick={() => clearText()}>Clear</button>
+      <button className="btn mx-2 btn-outline btn-primary" disabled={isListening} onClick={() => resumeListening()}>{isListening ? 'Listening...' : 'Start Listening'}</button>
+      <button className="btn mx-2 btn-outline btn-primary" disabled={!isListening} onClick={() => stopListening()}>Stop</button>
+      <button className="btn mx-2 btn-outline btn-primary" disabled={!myTranscript.length > 0 || !recognizingTranscript > 0} onClick={() => clearText()}>Clear</button>
     </div>
     <div className="flex flex-row justify-evenly my-3">
       <div className="my-2 p-2 border-base-100 w-1/2">

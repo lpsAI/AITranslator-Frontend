@@ -9,7 +9,7 @@ export const Select = ({children, onSelcted, selectedVal, label, subLabel}) => {
     <span className="label-text">{label}</span>
     <span className="label-text-alt font-bold">{subLabel}</span>
   </div>
-  <select onChange={e => handleChange(e)} value={selectedVal} className="select select-bordered">
+  <select onChange={e => handleChange(e)} value={selectedVal} className="select select-bordered select-primary">
     {children}
   </select>
 </label>)

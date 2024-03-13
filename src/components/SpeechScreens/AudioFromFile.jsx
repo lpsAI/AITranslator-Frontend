@@ -116,14 +116,14 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
 
   return (<div className="flex flex-row my-3">
     <div className="flex flex-col w-[20%]">
-      <input type="file" id="file_input" accept="audio/wav, audio/*, video/*" onChange={e => handleFileChange(e)} className="file-input w-full my-2 mr-2" />
+      <input type="file" id="file_input" accept="audio/wav, audio/*, video/*" onChange={e => handleFileChange(e)} className="file-input file-input-primary file-input-ghost w-4/5 my-0 mx-auto" />
       {transcript && <button className="btn btn-primary btn-outline m-2" onClick={() => clearTranslation()}>Clear</button>}
     </div>
-    <label className="form-control w-[80%] border-l-2 p-2 border-black">
+    <label className="form-control w-[80%] border-l-2 p-2 border-primary">
         <div className="label">
           <span className="label-text">{!loader ? 'Translated' : 'Translating...'}</span>
         </div>
-        {!loader ? <textarea className="textarea textarea-bordered"
+        {!loader ? <textarea className="textarea textarea-bordered textarea-primary"
           readOnly={true}
           ref={recogTextArea}
           value={transcript}
