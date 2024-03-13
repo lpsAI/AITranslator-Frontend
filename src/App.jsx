@@ -22,7 +22,7 @@ function App() {
         path: '/',
         element: <><ChatHeader /><ChatScreen /></>
       }, {
-        path: 'voice',
+        path: '/voice',
         element: <><ChatHeader /><SpeechScreen /></>
       }]
   },

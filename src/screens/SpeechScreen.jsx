@@ -7,7 +7,7 @@ import AudioFromMic from '../components/SpeechScreens/AudioFromMic'
 export const SpeechScreen = () => {
   const [selectedLang, setSelectedLang] = useState(localStorage.getItem('default_locale'));
   const [selectedTargetLang, setSelectedTargetLang] = useState();
-  const [mode, setMode] = useState('mic');
+  const [mode, setMode] = useState('');
 
   const handleSelectedList = (selectedItem) => {
     setSelectedLang(() => selectedItem)
@@ -32,10 +32,12 @@ export const SpeechScreen = () => {
     </Select>
   </div>
   <div className="flex flex-row my-2 px-2 justify-center">
-    <button className="btn mx-2 btn-outline" disabled={mode === 'mic'} onClick={() => handleMode('mic')}>From Microphone</button>
-    <button className="btn mx-2 btn-outline" disabled={mode === 'file'} onClick={() => handleMode('file')}>From File</button>
+    {selectedLang && selectedTargetLang && <>
+      <button className="btn mx-2 btn-outline" disabled={mode === 'mic'} onClick={() => handleMode('mic')}>From Microphone</button>
+      <button className="btn mx-2 btn-outline" disabled={mode === 'file'} onClick={() => handleMode('file')}>From File</button>
+    </>}
   </div>
-  {selectedLang && selectedTargetLang && mode === 'mic' && <AudioFromMic key={`mic-${selectedLang}-${selectedTargetLang}`} sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />}
-  {selectedLang && selectedTargetLang && mode === 'file' && <AudioFromFile key={`file-${selectedLang}-${selectedTargetLang}`}  sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />}
+  {selectedLang && selectedTargetLang && mode === 'mic' && (<AudioFromMic key={`mic-${selectedLang}-${selectedTargetLang}`} sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />)}
+  {selectedLang && selectedTargetLang && mode === 'file' && (<AudioFromFile key={`file-${selectedLang}-${selectedTargetLang}`}  sourceLang={selectedLang.trim()} targetLang={selectedTargetLang.trim()} />)}
 </div>);
 }

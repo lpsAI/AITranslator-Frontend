@@ -1,5 +1,5 @@
 import { memo, useLayoutEffect, useRef, useState } from "react";
-import * as sdk from 'microsoft-cognitiveservices-speech-sdk';
+import { AudioConfig, OutputFormat, ProfanityOption, ResultReason, SpeechTranslationConfig, TranslationRecognizer } from 'microsoft-cognitiveservices-speech-sdk';
 const SPEECH_KEY = import.meta.env.VITE_SPEECH_KEY;
 const SPEECH_REGION = import.meta.env.VITE_SPEECH_REGION;
 import wav from 'audiobuffer-to-wav';
@@ -9,48 +9,46 @@ import { toast } from "react-toastify";
 const AudioFromFile = memo(({sourceLang, targetLang}) => {
   const [transcript, setTranscript] = useState('');
   const [loader, setLoader] = useState(false);
-  const speechConfig = sdk.SpeechTranslationConfig.fromSubscription(
-    SPEECH_KEY,
-    SPEECH_REGION
-  );
-  speechConfig.speechRecognitionLanguage = sourceLang;
-  speechConfig.addTargetLanguage(targetLang)
-  speechConfig.setProfanity(sdk.ProfanityOption.Raw);
-  speechConfig.enableDictation();
 
   const recogTextArea = useRef(null)
   const autoHeight = useRef();
 
 
   const initAudioTranslate = (selectedFile) => {
-    try {
-      const audioConfig = sdk.AudioConfig.fromWavFileInput(selectedFile);      
+    const speechConfig = SpeechTranslationConfig.fromSubscription(
+      SPEECH_KEY,
+      SPEECH_REGION
+    );
+    speechConfig.speechRecognitionLanguage = sourceLang;
+    speechConfig.addTargetLanguage(targetLang)
+    speechConfig.setProfanity(ProfanityOption.Raw);
+    speechConfig.outputFormat = OutputFormat.Detailed;
+  
+    const audioConfig = AudioConfig.fromWavFileInput(selectedFile);      
     
-      const recognizer = new sdk.TranslationRecognizer(
-        speechConfig,
-        audioConfig
-      );
+    const recognizer = new TranslationRecognizer(
+      speechConfig,
+      audioConfig
+    );
 
-      // recognizer.recognizing = (s, e) => {
-      //   console.log(e.result.text);
-      // }
+     recognizer.recognizeOnceAsync(result => {
+      if (result.reason === ResultReason.TranslatedSpeech) {
+        setTranscript(result.translations.get(targetLang));
+        setLoader(false);
+        recognizer.close();
 
-       recognizer.recognizeOnceAsync(result => {
-        if (result.reason === sdk.ResultReason.RecognizedSpeech) {
-          setTranscript(result.translations.get(targetLang));
-          setLoader(false);
-        } else {
-          toast.error('Error on translating audio: ' + result.errorDetails)
-        }
-        
-        // recognizer.close();
-      });
+      } else {
+        setLoader(false);
+        toast.error('Error on translating audio: ' + result.errorDetails)
+        recognizer.close();
+      }
       
-    } catch (error) {
+    }, (err) => {
       setLoader(false);
-      console.log(error);
-      toast.error('Error on translating audio: ' + error.message)
-    }
+      console.log(err);
+      toast.error('Error on detailing audio audio: ' + err)
+      recognizer.close();
+    });
       
   }
 
@@ -87,29 +85,40 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
 
       const fileReader = new FileReader();
 
-      fileReader.onloadend = (e) => {
-        const subByteArray = (new Uint8Array(e.target.result)).subarray(0, 4);
-        let fileHeader = '';
-        for (let i = 0; i < subByteArray.length; i++) {
-          fileHeader += subByteArray[i].toString(16);
-        }
+      fileReader.onloadend = () => {
+        // const subByteArray = (new Uint8Array(e.target.result)).subarray(0, 4);
+        // let fileHeader = '';
+        // for (let i = 0; i < subByteArray.length; i++) {
+        //   fileHeader += subByteArray[i].toString(16);
+        // }
         
         setLoader(true);
-        if (fileHeader === '52494646') {
-          initAudioTranslate(rawFile);
-        } else {
-          convertToWav(rawFile, (finalData) => {
-            initAudioTranslate(finalData);
-          });
-        }
+        convertToWav(rawFile, (finalData) => {
+          initAudioTranslate(finalData);
+        });
+        // if (fileHeader === '52494646') {
+        //   initAudioTranslate(rawFile);
+        // } else {
+        //   convertToWav(rawFile, (finalData) => {
+        //     initAudioTranslate(finalData);
+        //   });
+        // }
         
       }
       fileReader.readAsArrayBuffer(rawFile)
     }
   }
 
+  const clearTranslation = () => {
+    setTranscript('');
+    document.getElementById('file_input').value = null;
+  }
+
   return (<div className="flex flex-row my-3">
-    <input type="file" accept="audio/wav, audio/*, video/*" onChange={e => handleFileChange(e)} className="file-input w-[20%] max-w-xs my-2 mr-2" />
+    <div className="flex flex-col w-[20%]">
+      <input type="file" id="file_input" accept="audio/wav, audio/*, video/*" onChange={e => handleFileChange(e)} className="file-input w-full my-2 mr-2" />
+      {transcript && <button className="btn btn-primary btn-outline m-2" onClick={() => clearTranslation()}>Clear</button>}
+    </div>
     <label className="form-control w-[80%] border-l-2 p-2 border-black">
         <div className="label">
           <span className="label-text">{!loader ? 'Translated' : 'Translating...'}</span>
@@ -117,7 +126,7 @@ const AudioFromFile = memo(({sourceLang, targetLang}) => {
         {!loader ? <textarea className="textarea textarea-bordered"
           readOnly={true}
           ref={recogTextArea}
-          defaultValue={transcript}
+          value={transcript}
         /> : <span className="ml-3 loading loading-dots loading-lg"></span>}
     </label>
   </div>
