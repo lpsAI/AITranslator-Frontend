@@ -44,7 +44,7 @@ const MessageInput = ({ chatId }) => {
               chat_id: parseInt(chatId),
               author_id: currentUser.id,
               content: respData.data.detectedText,
-              from_lang: localStorage.getItem('language'),
+              from_lang: respData.data.detectedLang,
               is_image: true,
               img_url: respData.data.imageUrl
             }])
