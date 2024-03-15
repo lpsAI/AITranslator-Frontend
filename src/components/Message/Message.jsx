@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import dayjs from 'dayjs';
 
@@ -21,9 +21,13 @@ const Message = ({ text, fromLang, myId, otherUser, time }) => {
     setTransText(response.data.translations[0].text ?? text)
   }, [fromLang])
 
-  useEffect(() => {
-    translateAPI(text, language)
-  }, [fromLang, language])
+  const toggleTranslation = () => {
+    if (transText != '') {
+      setTransText('');
+    } else {
+      translateAPI(text, language)
+    }
+  }
 
   return (
     // <div className={`flex flex-col ${myId === currentUser.id ? 'items-end' : 'items-start'}`}>
@@ -36,11 +40,14 @@ const Message = ({ text, fromLang, myId, otherUser, time }) => {
     // </div>
     <>
     <div className={`chat ${myId === currentUser.id ? 'chat-end' : 'chat-start'}`}>
-      <div className="chat-header">
-        {myId === currentUser.id ? 'You' : otherUser}
+      <div className="chat-header flex items-center">
+        <p className='mr-2'>{myId === currentUser.id ? 'You' : otherUser}</p>
         <time className="text-xs opacity-50">{dayjs(time).format('DD/MM/YYYY')}</time>
       </div>
-      <div className={`chat-bubble ${myId === currentUser.id ? 'chat-bubble-primary' : ''}`}>{transText ? transText : <span className="loading loading-dots loading-md"></span>}</div>
+      <div className={`chat-bubble ${myId === currentUser.id ? 'chat-bubble-primary' : ''}`}>{transText !== '' ? transText : text}</div>
+      {language !== fromLang && <div className="chat-footer">
+        <span className='text-primary underline cursor-pointer' onClick={()=> toggleTranslation()}>{transText !== '' ? 'Original' : 'Translate'}</span>
+      </div>}
     </div>
     </>
   );
