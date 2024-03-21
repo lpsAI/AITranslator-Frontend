@@ -11,6 +11,7 @@ import { ProtectedScreen } from './screens/ProtectedScreen';
 import { AppContextProvider } from './context/AppContext';
 import { ToastContainer } from 'react-toastify';
 import { SuspenseContent } from './components/Suspense/SuspenseContent';
+import { TextOnImageScreen } from './screens/TextOnImageScreen';
 
 function App() {
 
@@ -24,6 +25,9 @@ function App() {
       }, {
         path: '/voice',
         element: <><ChatHeader /><SpeechScreen /></>
+      }, {
+        path: '/image',
+        element: <><ChatHeader /><TextOnImageScreen /></>
       }]
   },
   {

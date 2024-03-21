@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -8,7 +8,7 @@ import { supabase } from "../../SupabaseClient";
 const MessageInput = ({ chatId }) => {
   const [text, setText] = useState("");
   const { currentUser, language } = useAppContext()
-  const toastId = React.useRef(null);
+  const toastId = useRef(null);
 
   function handleUpload(file) {
     if (!file) {
