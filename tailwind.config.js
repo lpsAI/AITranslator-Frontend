@@ -11,11 +11,12 @@ export default {
     themes: [
       {
         light: {
-          ...require('daisyui/src/theming/themes').light,
+          ...require('daisyui/src/theming/themes')["light"],
           primary: "#6B1868",
           secondary: "#EF2F24"
-        }
-      }
+        },
+      },
+      "dark",
     ]
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],

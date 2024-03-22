@@ -6,8 +6,14 @@ import { redirect } from "react-router";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
+import { Button } from "flowbite-react";
+import { FaMoon , FaSun} from 'react-icons/fa'
+import { toggleTheme } from "/Users/82011358/AITranslator-Frontend/src/redux/theme/themeSlice";
+import { useSelector, useDispatch } from 'react-redux';
 
 export const ChatHeader = () => {
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state) => state.theme);
   const [languageList, setLanguageList] = useState([]);
   // const [localeLangList, setLocaleLangList] = useState([]);
   const [toClose, setToClose] = useState(false);
@@ -69,13 +75,16 @@ export const ChatHeader = () => {
     }
 
     initAllLanguages();
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme );
+  }, [theme]);
 
   const handleLogout = async () => {
     await signOut()
     toast.info('Logged out successfully!');
     redirect('/login');
   }
+
+  
 
   return (
   <>
@@ -94,6 +103,16 @@ export const ChatHeader = () => {
         <li><Link className="text-lg m-2 text-center" to={'/voice'}>Voice</Link></li>
         <li><Link className="text-lg m-2 text-center" to={'/image'}>Image</Link></li>
         <li><a className="text-lg m-2 text-center" type="button" onClick={() => setToClose(true)}>Language <b>{localStorage.getItem('language')}</b></a></li>
+        <li><Button
+          className='w-12 h-10 hidden sm:inline'
+          color='gray'
+          pill
+          onClick={() => dispatch(toggleTheme())}
+        >
+          {theme === 'light' ? <FaSun /> : <FaMoon />}
+          
+
+        </Button></li>
       </ul>
     </div>
   </div>
