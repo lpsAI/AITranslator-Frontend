@@ -108,7 +108,7 @@ export const ChatHeader = () => {
         <li><Link className="text-lg m-2 text-center" to={'/image'}>Image</Link></li>
         <li><a className="text-lg m-2 text-center" type="button" onClick={() => setToClose(true)}>Language <b>{localStorage.getItem('language')}</b></a></li>
         <li><Button
-          className='w-12 h-10 hidden sm:inline'
+          className='w-12 h-17 hidden sm:inline'
           color='gray'
           pill
           onClick={toggleTheme}
