@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { Button } from "flowbite-react";
-import { FaMoon , FaSun} from 'react-icons/fa'
+import { SunIcon , MoonIcon } from "@heroicons/react/24/solid";
 
 export const ChatHeader = () => {
   const [theme, setTheme] = useState(() => {
@@ -113,7 +113,7 @@ export const ChatHeader = () => {
           pill
           onClick={toggleTheme}
         >
-          {theme === 'light' ? <FaSun /> : <FaMoon />}
+          {theme === 'light' ? <SunIcon /> : <MoonIcon />}
           
 
         </Button></li>
