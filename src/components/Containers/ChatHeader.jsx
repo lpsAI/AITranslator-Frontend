@@ -6,7 +6,6 @@ import { redirect } from "react-router";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
-import { Button } from "flowbite-react";
 import { SunIcon , MoonIcon } from "@heroicons/react/24/solid";
 
 export const ChatHeader = () => {
@@ -88,7 +87,7 @@ export const ChatHeader = () => {
   const toggleTheme = () => {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
-  
+
 
   return (
   <>
@@ -107,7 +106,7 @@ export const ChatHeader = () => {
         <li><Link className="text-lg m-2 text-center" to={'/voice'}>Voice</Link></li>
         <li><Link className="text-lg m-2 text-center" to={'/image'}>Image</Link></li>
         <li><a className="text-lg m-2 text-center" type="button" onClick={() => setToClose(true)}>Language <b>{localStorage.getItem('language')}</b></a></li>
-        <li><Button
+        <li><button
           className='w-12 h-17 hidden sm:inline'
           color='gray'
           pill
@@ -116,7 +115,7 @@ export const ChatHeader = () => {
           {theme === 'light' ? <SunIcon /> : <MoonIcon />}
           
 
-        </Button></li>
+        </button></li>
       </ul>
     </div>
   </div>
