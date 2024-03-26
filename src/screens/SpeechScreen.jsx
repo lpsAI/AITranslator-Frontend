@@ -28,6 +28,7 @@ export const SpeechScreen = () => {
       {JSON.parse(localStorage.getItem('locale_list')).map((lang, key) => (<option key={key} value={lang.locale}>{lang.label}</option>))}
     </Select>
     <Select selectedVal={selectedTargetLang} label="Selected Target Language"  key="destination" type="destination" subLabel={selectedTargetLang} onSelcted={handleTargetSelectedList}>
+      <option value="">Select a language...</option>
       {JSON.parse(localStorage.getItem('list_languages')).map((lang, key) => (<option key={key} value={lang.langId}>{lang.langName}</option>))}
     </Select>
   </div>
