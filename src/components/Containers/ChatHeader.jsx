@@ -6,8 +6,13 @@ import { redirect } from "react-router";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
+import { SunIcon , MoonIcon } from "@heroicons/react/24/solid";
 
 export const ChatHeader = () => {
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme : 'light';
+  });
   const [languageList, setLanguageList] = useState([]);
   // const [localeLangList, setLocaleLangList] = useState([]);
   const [toClose, setToClose] = useState(false);
@@ -69,13 +74,20 @@ export const ChatHeader = () => {
     }
 
     initAllLanguages();
-  }, []);
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme );
+  }, [theme]);
 
   const handleLogout = async () => {
     await signOut()
     toast.info('Logged out successfully!');
     redirect('/login');
   }
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
 
   return (
   <>
@@ -94,6 +106,16 @@ export const ChatHeader = () => {
         <li><Link className="text-lg m-2 text-center" to={'/voice'}>Voice</Link></li>
         <li><Link className="text-lg m-2 text-center" to={'/image'}>Image</Link></li>
         <li><a className="text-lg m-2 text-center" type="button" onClick={() => setToClose(true)}>Language <b>{localStorage.getItem('language')}</b></a></li>
+        <li><button
+          className='w-12 h-17 hidden sm:inline'
+          color='gray'
+          pill
+          onClick={toggleTheme}
+        >
+          {theme === 'light' ? <SunIcon /> : <MoonIcon />}
+          
+
+        </button></li>
       </ul>
     </div>
   </div>
