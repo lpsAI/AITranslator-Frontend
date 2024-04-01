@@ -1,7 +1,14 @@
+import { useEffect, useRef } from 'react';
 import Message from '../Message/Message'
 import { MessageImage } from './MessageImage';
 
 const MessageList = ({ messages, otherUser }) => {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="p-4">
       <h1 className="font-bold">{otherUser}</h1>
@@ -20,6 +27,8 @@ const MessageList = ({ messages, otherUser }) => {
                    otherUser={otherUser} 
                    myId={message.author_id} />        
       }) : <h1>No Messages</h1>}
+
+      <div ref={scrollRef} />
     </div>
   );
 }
