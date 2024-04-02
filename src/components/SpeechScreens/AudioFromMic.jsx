@@ -12,7 +12,6 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
   const recogTextArea = useRef(null)
   const transTextArea = useRef(null)
   const autoHeight = useRef();
-  const scrollRef = useRef(null);
   const speechConfig = sdk.SpeechTranslationConfig.fromSubscription(
     SPEECH_KEY,
     SPEECH_REGION
@@ -129,8 +128,6 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
     transTextArea.current.style.overflow = "auto";
     recogTextArea.current.style.overflow = "auto";
 
-    scrollRef.current.scrollIntoView({ behavior: "smooth" });
-
   }, [recognizingTranscript, myTranscript, recogTextArea, transTextArea, autoHeight]);
 
   return (<>
@@ -166,7 +163,6 @@ const AudioFromMic = memo(({sourceLang, targetLang}) => {
         </label>
       </div>
     </div>
-    <div ref={scrollRef}></div>
   </>)
 });
 
