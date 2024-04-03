@@ -60,6 +60,8 @@ export const ChatHeader = () => {
     const initAllLanguages = async () => {
 
       axios.all([reqOne, reqTwo]).then(axios.spread((...res) => {
+        res[0].data.languages.sort((a, b) => a.langName.localeCompare(b.langName));
+        res[1].data.languageLocale.sort((a, b) => a.label.localeCompare(b.label));
         setLanguageList(res[0].data.languages ?? []);
 
         const userLang = res[0].data.reqlanguage;
