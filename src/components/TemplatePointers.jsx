@@ -2,9 +2,13 @@ function TemplatePointers(){
     return(
         <>
          <h1 className="text-2xl mt-8 font-bold">LPS Translator</h1>
-          <p className="py-2"><span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></p>
-         
+          <div className="py-2">
+            <p>LPS Translator is an innovative communication tool designed to facilitate seamless multilingual interactions in online meetings. With its cutting-edge features, LPS Translator empowers users to transcend language barriers and engage in fluent communication regardless of their native tongues.</p>
+            <div className="my-4">
+                <div className="badge badge-primary badge-lg mx-2 p-4"><a href="#key_features">Key Features</a></div>
+                <div className="badge badge-primary badge-lg mx-2 p-4"><a href="#purpose">Purpose</a></div>
+            </div>
+          </div>         
         </>
     )
 }
