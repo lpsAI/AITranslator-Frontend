@@ -102,7 +102,7 @@ const LoginScreen = () => {
                             </button>
 
                         </form>
-                        <div className='text-center mt-4'>Don{'\''}t have an account yet? <span onClick={() => setToLogin(prev => !prev)} className="  inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Register</span></div>
+                        <div className='text-center mt-4'>Don{'\''}t have an account yet? <span onClick={() => setToLogin(prev => !prev)} className=" font-bold inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">Register</span></div>
                     </div>}
                     {!toLogin && <div className='py-24 px-10 bg-purple-300'>
                         <h2 className='text-2xl font-semibold mb-2 text-center'>Register</h2>
