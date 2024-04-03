@@ -18,7 +18,7 @@ export const ChatHeader = () => {
   const [toClose, setToClose] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParam] = useState(["langId"]);
-  const { onLangChange, currentUser } = useAppContext()
+  const { onLangChange, currentUser, setLanguage } = useAppContext()
 
   const { signOut, user } = useAuth()
 
@@ -70,6 +70,7 @@ export const ChatHeader = () => {
         localStorage.setItem('locale_list', JSON.stringify(res[1].data.languageLocale));
         localStorage.setItem('default_locale', userLang[0]);
         localStorage.setItem('language', userLang[1]);
+        setLanguage(userLang[1])
       }));
 
 

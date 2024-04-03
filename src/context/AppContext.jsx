@@ -16,7 +16,7 @@ export const AppContextProvider = ({children}) => {
   const [isInitialLoad, setIsInitialLoad] = useState(false);
   // const [newIncomingChatTrigger, setNewIncomingChatTrigger] = useState(null);
   const scrollRef = useRef();
-  const [language, setLanguage] = useState(null)
+  const [language, setLanguage] = useState('')
 
 
   useEffect(() => {
@@ -110,7 +110,8 @@ export const AppContextProvider = ({children}) => {
           scrollToBottom,
           currentUser,
           onLangChange,
-          language
+          language,
+          setLanguage
         }}>{children}</AppContext.Provider>)
 }
 
