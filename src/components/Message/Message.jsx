@@ -44,7 +44,7 @@ const Message = ({ text, fromLang, myId, otherUser, time }) => {
         <p className='mr-2'>{myId === currentUser.id ? 'You' : otherUser}</p>
         <time className="text-xs opacity-50">{dayjs(time).format('DD/MM/YYYY')}</time>
       </div>
-      <div className={`chat-bubble ${myId === currentUser.id ? 'chat-bubble-primary' : ''}`}>{transText !== '' ? transText : text}</div>
+      <div className={`chat-bubble ${myId === currentUser.id ? 'chat-bubble-primary' : ''}`}>{transText !== '' && fromLang !== language ? transText : text}</div>
       {language !== fromLang && <div className="chat-footer">
         <span className='text-primary underline cursor-pointer' onClick={()=> toggleTranslation()}>{transText !== '' ? 'Original' : 'Translate'}</span>
       </div>}
