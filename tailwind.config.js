@@ -9,27 +9,39 @@ export default {
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
-          primary: "#6B1868",
-          secondary: "#EF2F24",
+          primary: "#8C55B4", 
+          secondary: "#6A5ACD",  // Medium purple
+          bg: "#F0F0F0",  // Light gray
+          "bg-contrast": "#FFFFFF",  // White
+          text: "#333333",  // Dark gray
+          "text-contrast": "#FFFFFF",  // White
+          "border-base": "#CCCCCC",  // Light gray
+          "border-primary": "#4B0082",  // Dark purple
+          "border-secondary": "#6A5ACD",  // Medium purple
+          "border-accent": "#FFD700",  // Gold
+          "border-error": "#FF6347",  // Tomato
+          "btn-primary": "#4B0082",  // Dark purple
+          "btn-secondary": "#6A5ACD",  // Medium purple
+          "btn-error": "#FF6347",  // Tomato
         },
       },
       {
-        night: {
+        dark: {
           ...require("daisyui/src/theming/themes")["dark"],
-          primary: "#8A2BE2",  // Adjusted primary color for purple night mode
-          secondary: "#4B0082",  // Adjusted secondary color for purple night mode
-          bg: "#2F2F4F",  // Custom background color for purple night mode
-          "bg-contrast": "#363660",  // Custom background contrast color for purple night mode
-          text: "#E2E2E2",  // Custom text color for purple night mode
-          "text-contrast": "#2F2F4F",  // Custom text contrast color for purple night mode
-          "border-base": "#3C3C64",  // Custom border base color for purple night mode
-          "border-primary": "#5D5D8A",  // Custom border primary color for purple night mode
-          "border-secondary": "#8080A6",  // Custom border secondary color for purple night mode
-          "border-accent": "#A1E9C5",  // Custom border accent color for purple night mode
-          "border-error": "#EF4444",  // Custom border error color for purple night mode
-          "btn-primary": "#8A2BE2",  // Adjusted primary button color for purple night mode
-          "btn-secondary": "#4B0082",  // Adjusted secondary button color for purple night mode
-          "btn-error": "#EF4444",  // Custom error button color for purple night mode
+          primary: "#6A5ACD",  // Medium purple
+          secondary: "#4B0082",  // Dark purple
+          bg: "#333333",  // Dark gray
+          "bg-contrast": "#1A1A1A",  // Darker gray
+          text: "#FFFFFF",  // White
+          "text-contrast": "#FFFFFF",  // White
+          "border-base": "#666666",  // Gray
+          "border-primary": "#6A5ACD",  // Medium purple
+          "border-secondary": "#4B0082",  // Dark purple
+          "border-accent": "#FFD700",  // Gold
+          "border-error": "#FF6347",  // Tomato
+          "btn-primary": "#6A5ACD",  // Medium purple
+          "btn-secondary": "#4B0082",  // Dark purple
+          "btn-error": "#FF6347",  // Tomato
         },
       },
     ],

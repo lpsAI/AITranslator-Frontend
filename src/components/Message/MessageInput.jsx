@@ -109,7 +109,7 @@ const MessageInput = ({ chatId }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="container bg-gray-200 mx-auto py-4 p-8">
+      <form onSubmit={handleSubmit} className="container bg-secondary mx-auto py-4 p-8">
         <div className="flex flex-row justify-evenly">
           <input
             type="text"

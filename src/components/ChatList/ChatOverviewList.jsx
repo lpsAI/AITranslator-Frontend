@@ -56,9 +56,9 @@ export const ChatOverviewList = ({chatIdListener}) => {
   }
 
   return (<div className="p-8 space-y-2">
-      <div className="p-4 w-full bg-gray-100 shadow rounded flex flex-col">
-        <input type="email" placeholder="Enter Email" value={newUser} onChange={e => setNewUser(e.target.value)} className="input my-3 w-ful input-ghost w-full"/>
-        <button type="button" className="btn btn-active bg-gray-200 rounded p-2 hover:bg-gray-300" onClick={(e) => createChatWithUser(e)}>Create chat</button>
+      <div className="p-4 w-full shadow rounded flex flex-col">
+        <input type="email" placeholder="Enter Email" value={newUser} onChange={e => setNewUser(e.target.value)} className="input bg-secondary my-3 w-ful input-ghost w-full"/>
+        <button type="button" className="btn bg-secondary btn-active  rounded p-2 " onClick={(e) => createChatWithUser(e)}>Create chat</button>
         <h2 className="text-large font-semibold my-2">Chat with: </h2>
         <ul className="list-none py-2">
         {chats && chats.map((aChat, index) => (<li key={index}>

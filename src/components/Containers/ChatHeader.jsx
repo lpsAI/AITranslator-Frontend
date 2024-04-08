@@ -88,7 +88,7 @@ export const ChatHeader = () => {
   }
 
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'night' : 'light'));
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
 
