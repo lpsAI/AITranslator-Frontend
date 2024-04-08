@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppContext } from "../context/AppContext";
 import axios from "axios";
+import { Select } from "../components/Select/Select";
 
 const defaultLang = localStorage.getItem('language');
 
@@ -15,6 +16,7 @@ export const TextOnImageScreen = () => {
   const toastId = useRef(null);
   const transTextArea = useRef(null)
   const autoHeight = useRef();
+  const [selectedTargetLang, setSelectedTargetLang] = useState('');
 
   /**
    * 
@@ -34,7 +36,7 @@ export const TextOnImageScreen = () => {
 
     const fd = new FormData();
     fd.append("file", file);
-    fd.append('fromLanguage', language ?? localStorage.getItem('language'))
+    fd.append('fromLanguage', language ?? defaultLang)
 
     axios
       .post("https://ai-translator-backend.vercel.app/api/v1/textDetectOnly", fd, {
@@ -53,7 +55,9 @@ export const TextOnImageScreen = () => {
       }).then((respData) => {
         if (respData && respData.data) {
           
-          toast.done(toastId.current);
+          // toast.done(toastId.current);
+
+          toast.dismiss(toastId.current);
 
           if (respData.data.detectedText === '') {
             toast.warn(`No text detected`, {
@@ -72,10 +76,10 @@ export const TextOnImageScreen = () => {
           });
 
         } else {
-          toast.done(toastId.current);
+          toast.dismiss(toastId.current);
         }
       }).catch(error => {
-        toast.done(toastId.current);
+        toast.dismiss(toastId.current);
         toast.error(`Upload failed: ${error.message}`, {
           position: "top-right",
           autoClose: 3000
@@ -99,7 +103,7 @@ export const TextOnImageScreen = () => {
 
     const response = await axios.post("https://ai-translator-backend.vercel.app/api/v1/ai",{
       text: origText, 
-      language: language ?? defaultLang, 
+      language: selectedTargetLang ?? defaultLang, 
       fromLang: imgLng
     } , {
       headers: {'X-Custom-Header': 'foobar'}
@@ -134,6 +138,10 @@ export const TextOnImageScreen = () => {
 
   }, [transTextArea, autoHeight, origText]);
 
+  const handleTargetSelectedList = (selectedItem) => {
+    setSelectedTargetLang(() => selectedItem);
+  }
+
   return <div className="container w-screen">
     <div className="flex p-5">
       <div className="w-2/4">
@@ -141,7 +149,7 @@ export const TextOnImageScreen = () => {
       </div>
       <div className="w-2/4 flex flex-col mx-4">
         <div className="w-full">
-        <input
+          <input
             style={{display: 'none'}}
             className="hidden"
             accept="image/*"
@@ -151,16 +159,26 @@ export const TextOnImageScreen = () => {
           />
           <button className="btn btn-primary p-2 my-4" onClick={() => hiddenFileInput.current.click()}>Upload</button>
           {origText && <>
-            <button className="btn btn-primary p-2 mx-4 my-4" onClick={() => translate()}>{transText != '' ? 'Original' : 'Translate'}</button>
-            <button className="btn btn-primary p-2 my-4" onClick={() => clearText()}>Clear</button>
+            <div className="flex items-end my-4">
+              <Select selectedVal={selectedTargetLang} label="Selected Target Language"  key="destination" type="destination" subLabel={selectedTargetLang} onSelcted={handleTargetSelectedList}>
+                <option value="">Select a language...</option>
+                {JSON.parse(localStorage.getItem('list_languages')).map((lang, key) => (<option key={key} value={lang.langId}>{lang.langName}</option>))}
+              </Select>
+              <button disabled={selectedTargetLang === ''} className="btn btn-primary p-4 mx-4" onClick={() => translate()}>{transText != '' ? 'Original' : 'Translate'}</button>
+              <button className="btn btn-primary p-4" onClick={() => clearText()}>Clear</button>
+            </div>
           </>}
         </div>
         <div className="w-full">
-          <textarea className="textarea textarea-bordered textarea-xl w-full"
-            readOnly={true}
-            ref={transTextArea}
-            defaultValue={transText != '' ? transText : origText}
-          />
+            <div className="form-control">
+              <textarea className="textarea textarea-bordered textarea-xl w-full"
+                readOnly={true}
+                ref={transTextArea}
+                defaultValue={transText != '' ? transText : origText}/>
+            </div>
+            <div className="label">
+              <span className="label-text-alt">Dectected text: <b>{imgLng}</b></span>
+            </div>
         </div>
       </div>
     </div>

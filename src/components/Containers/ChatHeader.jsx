@@ -17,7 +17,7 @@ export const ChatHeader = () => {
   // const [localeLangList, setLocaleLangList] = useState([]);
   const [toClose, setToClose] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchParam] = useState(["langId"]);
+  const [searchParam] = useState(["langName"]);
   const { onLangChange, currentUser, setLanguage } = useAppContext()
 
   const { signOut, user } = useAuth()
