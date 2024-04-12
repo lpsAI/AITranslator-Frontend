@@ -8,11 +8,11 @@ import { useAuth } from "../../context/AuthContext";
 export const ChatOverviewList = ({chatIdListener}) => {
   const [newUser, setNewUser] = useState('');
   const { chats, currentUser } = useAppContext()
-  const { user } = useAuth();
-
+  const { user } = useAuth(); 
+ 
   const createChatWithUser = async (e) => {
     e.preventDefault();
-
+    console.log({useState});
     if (!newUser.trim()) {
       toast.error('Please input an email');
     }

@@ -9,8 +9,8 @@ export default {
       {
         light: {
           ...require("daisyui/src/theming/themes")["light"],
-          primary: "#8C55B4", 
-          secondary: "#6A5ACD",  // Medium purple
+          primary: "#B38BB2", 
+          secondary: "#DA837F", 
           bg: "#F0F0F0",  // Light gray
           "bg-contrast": "#FFFFFF",  // White
           text: "#333333",  // Dark gray
@@ -23,13 +23,14 @@ export default {
           "btn-primary": "#4B0082",  // Dark purple
           "btn-secondary": "#6A5ACD",  // Medium purple
           "btn-error": "#FF6347",  // Tomato
+          "placeholder-primary": "#000000",
         },
       },
       {
         dark: {
           ...require("daisyui/src/theming/themes")["dark"],
-          primary: "#6A5ACD",  // Medium purple
-          secondary: "#4B0082",  // Dark purple
+          primary: "#6B1868",  
+          secondary: "#71120D",  
           bg: "#333333",  // Dark gray
           "bg-contrast": "#1A1A1A",  // Darker gray
           text: "#FFFFFF",  // White
