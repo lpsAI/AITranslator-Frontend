@@ -29,6 +29,15 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    host: true,
+    port: 8080
+  },
+  server: {
+    host: true,
+    strictPort: true,
+    port: 8080
+  },
   build: {
     minify: 'esbuild',
     reportCompressedSize: true,
