@@ -26,21 +26,17 @@ WORKDIR /app/lps_translation_prod
 
 COPY --from=BUILD_IMAGE /app/lps_translation/dist/ /app/lps_translation_prod/dist/
 
-COPY package.json .
-
-COPY vite.config.js .
-
 RUN adduser node root
 
 RUN chmod -R 775 /app/lps_translation_prod/
 
 RUN chown -R node:root /app/lps_translation_prod/
 
-RUN npm cache clean --force
+COPY package.json .
 
-RUN npm install npm@latest -g
+COPY vite.config.js .
 
-RUN npm install vite -g
+RUN npm install vite
 
 EXPOSE 8080
 
