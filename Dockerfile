@@ -32,15 +32,15 @@ COPY vite.config.js .
 
 RUN adduser node root
 
+RUN chmod -R 775 /app/lps_translation_prod/
+
+RUN chown -R node:root /app/lps_translation_prod/
+
 RUN npm cache clean --force
 
 RUN npm install npm@latest -g
 
 RUN npm install vite -g
-
-RUN chmod -R 775 /app/lps_translation_prod/
-
-RUN chown -R node:root /app/lps_translation_prod/
 
 EXPOSE 8080
 
