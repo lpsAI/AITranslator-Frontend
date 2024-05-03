@@ -14,11 +14,13 @@ WORKDIR /app/lps_translation
 
 COPY package.json .
 
-RUN npm install
+RUN npm install --production=false
 
 COPY . .
 
 RUN npm run build
+
+RUN npm prune --production
 
 FROM node:18-alpine as PROD_IMAGE
 
@@ -26,11 +28,13 @@ WORKDIR /app/lps_translation_prod
 
 COPY --from=BUILD_IMAGE /app/lps_translation/dist/ /app/lps_translation_prod/dist/
 
-COPY package.json .
+RUN chmod 755 /app/lps_translation_prod/dist/
 
-COPY vite.config.js .
+# COPY package.json .
 
-RUN npm install vite
+# COPY vite.config.js .
+
+# RUN npm install vite
 
 EXPOSE 8080
 
