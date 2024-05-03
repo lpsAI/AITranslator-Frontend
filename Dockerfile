@@ -30,9 +30,9 @@ COPY --from=BUILD_IMAGE /app/lps_translation/dist/ /app/lps_translation_prod/dis
 
 RUN chmod 755 /app/lps_translation_prod/dist/
 
-# COPY package.json .
+COPY package.json .
 
-# COPY vite.config.js .
+COPY vite.config.js .
 
 # RUN npm install vite
 
