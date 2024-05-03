@@ -16,8 +16,6 @@ COPY package.json .
 
 RUN npm cache clean --force
 
-RUN npm install vite -g
-
 RUN npm install npm@latest -g
 
 RUN npm install
@@ -37,6 +35,8 @@ RUN chmod 755 /app/lps_translation_prod/dist/
 COPY package.json .
 
 COPY vite.config.js .
+
+RUN npm install vite -g
 
 EXPOSE 8080
 
