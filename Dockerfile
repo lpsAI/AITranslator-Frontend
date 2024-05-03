@@ -14,13 +14,17 @@ WORKDIR /app/lps_translation
 
 COPY package.json .
 
-RUN npm install --production=false
+RUN npm cache clean --force
+
+RUN npm install vite -g
+
+RUN npm install npm@latest -g
+
+RUN npm install
 
 COPY . .
 
 RUN npm run build
-
-RUN npm prune --production
 
 FROM node:18-alpine as PROD_IMAGE
 
@@ -33,8 +37,6 @@ RUN chmod 755 /app/lps_translation_prod/dist/
 COPY package.json .
 
 COPY vite.config.js .
-
-# RUN npm install vite
 
 EXPOSE 8080
 
