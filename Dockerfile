@@ -14,10 +14,6 @@ WORKDIR /app/lps_translation
 
 COPY package.json .
 
-RUN npm cache clean --force
-
-RUN npm install npm@latest -g
-
 RUN npm install
 
 COPY . .
@@ -30,13 +26,17 @@ WORKDIR /app/lps_translation_prod
 
 COPY --from=BUILD_IMAGE /app/lps_translation/dist/ /app/lps_translation_prod/dist/
 
-RUN chmod 755 /app/lps_translation_prod/dist/
-
 COPY package.json .
 
 COPY vite.config.js .
 
 RUN npm install vite -g
+
+RUN npm cache clean --force
+
+RUN npm install npm@latest -g
+
+RUN chmod 755 /app/lps_translation_prod/
 
 EXPOSE 8080
 
