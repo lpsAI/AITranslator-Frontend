@@ -23,11 +23,11 @@ export default defineConfig({
   },
   optimizeDeps: {
     force: true,
-    esbuildOptions: {
-      loader: {
-        '.js': '.jsx',
-      },
-    },
+    // esbuildOptions: {
+    //   loader: {
+    //     '.js': '.jsx',
+    //   },
+    // },
   },
   preview: {
     host: true,
@@ -36,7 +36,7 @@ export default defineConfig({
   server: {
     host: true,
     strictPort: true,
-    port: 8080
+    port: 5173
   },
   build: {
     minify: 'esbuild',
