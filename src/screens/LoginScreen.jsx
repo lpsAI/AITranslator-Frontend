@@ -135,9 +135,9 @@ const LoginScreen = () => {
                   Register
                 </span>
               </div>
-              <div className="flex flex-wrap justify-center">
+              <div className="flex flex-wrap justify-center join">
                 <button
-                  className="btn sm:hidden m-2"
+                  className="btn join-item sm:hidden m-1"
                   onClick={() =>
                     document.getElementById("my_modal_3").showModal()
                   }
@@ -184,7 +184,7 @@ const LoginScreen = () => {
                   </div>
                 </dialog>
                 <button
-                  className="btn sm:hidden m-2"
+                  className="btn join-item sm:hidden m-1"
                   onClick={() =>
                     document.getElementById("features_modal").showModal()
                   }
@@ -192,7 +192,7 @@ const LoginScreen = () => {
                   Features
                 </button>
                 <dialog id="features_modal" className="modal">
-                  <div className="modal-box">
+                  <div className="modal-box p-0">
                     <form method="dialog">
                       {/* if there is a button in form, it will close the modal */}
                       <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -201,13 +201,13 @@ const LoginScreen = () => {
                     </form>
                     <div
                       id="key_features"
-                      className="mx-auto my-3 w-full max-w-5xl p-4 flex flex-col justify-center rounded-box"
+                      className="mx-auto w-full max-w-5xl flex flex-col justify-center rounded-box"
                     >
                       <h1 className="text-center py-4 text-xl">
                         <b>Key Features:</b>
                       </h1>
                       <div className="flex-row items-center mx-2 my-4 flex-grow-3 gap-3">
-                        <div className="grid grid-cols-2 gap-4 my-4">
+                        <div className="grid grid-cols-2 my-4">
                           <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +228,7 @@ const LoginScreen = () => {
                             </h1>
                           </div>
                           <div>
-                            <p className="text-center ">
+                            <p className="text-center text-sm mr-3">
                               LPS Translator harnesses advanced speech
                               recognition technology to accurately transcribe
                               spoken words into written text in real time. This
@@ -238,7 +238,7 @@ const LoginScreen = () => {
                             </p>
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4 my-4">
+                        <div className="grid grid-cols-2 my-4">
                           <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -260,7 +260,7 @@ const LoginScreen = () => {
                             </h1>
                           </div>
                           <div>
-                            <p className="text-center">
+                            <p className="text-center text-sm mr-3">
                               Leveraging sophisticated translation algorithms,
                               LPS Translator offers instantaneous translation of
                               the transcribed text into multiple languages.
@@ -272,7 +272,7 @@ const LoginScreen = () => {
                             </p>
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4 my-4">
+                        <div className="grid grid-cols-2 my-4">
                           <div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -294,7 +294,7 @@ const LoginScreen = () => {
                             </h1>
                           </div>
                           <div>
-                            <p className="text-center">
+                            <p className="text-center text-sm mr-3">
                               Complementing its speech-to-text capabilities, LPS
                               Translator integrates image-to-text functionality,
                               enabling users to extract textual information from
@@ -310,7 +310,7 @@ const LoginScreen = () => {
                   </div>
                 </dialog>
                 <button
-                  className="btn sm:hidden m-2"
+                  className="btn join-item sm:hidden m-1"
                   onClick={() =>
                     document.getElementById("purpose_modal").showModal()
                   }
