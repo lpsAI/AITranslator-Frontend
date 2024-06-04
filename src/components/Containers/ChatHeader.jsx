@@ -190,7 +190,7 @@ export const ChatHeader = () => {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu p-4 w-60 min-h-full bg-base-200 text-base-content">
+          <ul className="justify-center menu p-4 w-60 min-h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
             <li className="my-5 font-bold">
               Welcome {currentUser.email ?? user.email}!

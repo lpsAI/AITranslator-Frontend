@@ -143,8 +143,8 @@ export const TextOnImageScreen = () => {
   }
 
   return <div className="container w-screen">
-    <div className="flex p-5">
-      <div className="w-2/4">
+    <div className="flex max-sm:flex-col p-5">
+      <div className="w-2/4 max-sm:mx-4 max-sm:mb-5">
         {image ? <img src={image} alt="pic of uploaded" className="max-w-full w-full h-auto" /> : <h1>No image uploaded</h1>}
       </div>
       <div className="w-2/4 flex flex-col mx-4">
