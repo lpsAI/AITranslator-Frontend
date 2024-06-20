@@ -268,7 +268,7 @@ export const ChatHeader = () => {
                   className="w-auto p-1 m-1"
                   onClick={() => handleLanguageChange(aLang.langId)}
                 >
-                  <a className="btn text-left text-lg">{aLang.langName}</a>
+                  <a className="btn text-left md:text-lg">{aLang.langName}</a>
                 </li>
               );
             })}

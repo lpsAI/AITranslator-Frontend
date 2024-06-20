@@ -43,11 +43,24 @@ const ChatScreen = memo(() => {
     setChatUser(email)
   }
 
+
+  const [isVisible, setIsVisible] = useState(true);
+
+  const hideContainer = () => {
+    setIsVisible(false);
+  };
+
   return (
     <div className="w-full h-[85vh] max-sm:p-3 max-sm:items-center max-sm:justify-center flex flex-row">
+      {!isVisible && ( <button onClick={() => setIsVisible(!isVisible)}>
+        {isVisible ? 'Hide' : 'Show'} Container
+      </button>)}
+      {isVisible && (
       <div className="h-auto container sm:w-3/12 bg-primary">
+      <button className="close-button" onClick={hideContainer}>X</button>
         <ChatOverviewList chatIdListener={handleChatId} />
       </div>
+       )}
       {chatId && <div className="flex flex-col w-9/12">
         <div className="bg-base-200 overflow-auto container mx-auto py-8 h-full">
           <MessageList messages={messages} otherUser={chatUser} />
